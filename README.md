@@ -5,115 +5,108 @@ performance by topic, detects team blind spots, and generates actionable
 improvement plans. Built for LAN deployment with zero-config collector
 auto-discovery.
 
-## Repo Structure
+## Quick Start
 
+```bash
+git clone https://github.com/BoryslavW/EfficiencyTracker.git
+cd EfficiencyTracker
+bash install.sh
 ```
-hub/            ← Leader/manager installs this on their machine
-collector/      ← Engineers install this on their laptops
-demo/           ← Demo-only: fake data generators + preset switcher
-```
 
-### Who downloads what
+The installer asks one question — your role — then handles everything else:
 
-| Role | What to install | Directory |
-|------|----------------|-----------|
-| **Team lead / manager** | Dashboard, analytics, receiver, AI advisor | `hub/` |
-| **Engineers / developers** | Collector agent (runs silently in background) | `collector/` |
-| **Demo / evaluation only** | Fake data generator + 3 pre-built datasets | `demo/` |
+| Pick | What happens |
+|------|-------------|
+| **1 — Manager** | Installs the dashboard, AI model, desktop shortcut, and launches |
+| **2 — Engineer** | Installs the background collector that sends metrics to the Hub |
+| **3 — Demo** | Sets up the dashboard with pre-built sample data (no collectors needed) |
+
+**Requirements:** macOS with Python 3.9+ (pre-installed on most Macs).
+The installer checks for Python and tells you what to do if it's missing.
 
 ---
 
-## Hub Setup (team lead / manager)
+## Repo Structure
 
-### Prerequisites
-
-- Python 3.9+
-- [Ollama](https://ollama.ai) with `qwen2.5-coder:7b` (for AI features)
-- pip3
-
-### Install
-
-```bash
-git clone https://github.com/BoryslavW/task-analytics-poc.git
-cd task-analytics-poc
-pip3 install -r hub/requirements.txt
+```
+install.sh          ← Run this — picks your role, does the rest
+hub/                ← Dashboard + analytics + AI (manager machine)
+collector/          ← Background agent (engineer laptops)
+demo/               ← Pre-built datasets for demos
 ```
 
-### Run
+---
+
+## Hub (team lead / manager)
 
 ```bash
-python3 hub/dashboard.py
+bash install.sh       # pick option 1
+# — or directly —
+bash hub/install.sh
 ```
 
-On first run you'll set a dashboard password. The dashboard opens in a native
-window (if pywebview is installed) or at http://127.0.0.1:8790.
+What the installer does:
+1. Checks Python 3.9+
+2. Installs pip dependencies (`hub/requirements.txt`)
+3. Downloads the Ollama AI model (`qwen2.5-coder:7b`) — optional, skipped gracefully if Ollama isn't installed
+4. Creates a **desktop shortcut** (double-click to launch)
+5. Loads demo data so the dashboard isn't empty on first run
+6. Offers to launch the dashboard immediately
+
+On first launch you'll set a dashboard password. The dashboard opens in a
+native window or at http://127.0.0.1:8790.
 
 A **pairing code** is printed to the terminal — share this with engineers
-running the collector setup.
+so they can connect their collectors.
 
-### What the Hub includes
+### AI Features (optional)
+
+Install [Ollama](https://ollama.ai) for AI-powered features:
+- Code fix prompts (specific, copy-paste-ready fixes)
+- Education plans and skill gap analysis
+- Emerging trend detection
+
+Without Ollama, every other feature works normally.
+
+### Hub Files
 
 | File | Purpose |
 |------|---------|
 | `dashboard.py` | NiceGUI dashboard (port 8790), native window |
 | `analytics.py` | Topic classification, benchmarks, heatmaps |
-| `advisor.py` | AI advisor — education plans, emerging trends (Ollama) |
+| `advisor.py` | AI advisor — education plans, emerging trends |
 | `code_insight.py` | Codebase health analysis + AI fix prompts |
 | `receiver.py` | HTTPS data receiver (port 8788) with auth |
 | `hub_security.py` | TLS, API keys, PBKDF2 auth, rate limiting, secret scrubbing |
 | `hub_discovery.py` | Bonjour/mDNS LAN advertisement |
 | `presets.py` | Company scenario presets |
-| `model_baselines.py` | AI model token normalization (19 models) |
-| `pm_provider.py` | Abstract PM provider + Jira/Notion integrations |
 | `slack_connector.py` | Slack workspace signal ingestion |
-| `requirements.txt` | Hub Python dependencies |
-
-### macOS Desktop Shortcut
-
-```bash
-cd task-analytics-poc
-osacompile -o ~/Desktop/"Valon AI Dashboard.app" -e '
-on run
-    set appDir to "'$(pwd)'"
-    try
-        do shell script "pgrep -f \"python3.*dashboard.py\" > /dev/null 2>&1"
-    on error
-        do shell script "cd " & quoted form of appDir & " && python3 hub/dashboard.py > /dev/null 2>&1 &"
-    end try
-end run'
-```
+| `install.sh` | Automated hub installer |
 
 ---
 
-## Collector Setup (engineers)
-
-### Prerequisites
-
-- Python 3.9+ (no pip packages needed at runtime)
-- `zeroconf` for initial setup only: `pip3 install zeroconf`
-
-### Install
-
-On each developer's machine, run the one-time setup:
+## Collector (engineers)
 
 ```bash
+bash install.sh       # pick option 2
+# — or directly —
 bash collector/collector_setup.sh
 ```
 
-This will:
-1. Auto-discover the Hub on the LAN via Bonjour (falls back to manual IP)
-2. Ask for the engineer's name and the pairing code (from the hub admin)
-3. Register with the Hub and receive a unique API key
-4. Install a background daemon (macOS Launch Agent)
+One command handles everything:
+1. Installs `zeroconf` (for Hub discovery)
+2. Auto-discovers the Hub on the LAN via Bonjour (falls back to manual IP entry)
+3. Asks for your name and the pairing code (from the hub admin)
+4. Registers with the Hub and receives a unique API key
+5. Installs a background daemon that starts automatically on login
 
-Once installed, the collector runs invisibly. It:
+Once installed, the collector runs invisibly — no further action needed. It:
 - Parses Claude Code session transcripts
 - Scrubs secrets from all data before sending
 - Signs records with HMAC-SHA256
 - Queues locally if Hub is unreachable, flushes on reconnect
-- Starts automatically on login
 
-### What the Collector includes
+### Collector Files
 
 | File | Purpose |
 |------|---------|
@@ -122,31 +115,25 @@ Once installed, the collector runs invisibly. It:
 | `git_tracker.py` | Editor-agnostic git/filesystem session tracker |
 | `hooks/on_session_end.sh` | Claude Code SessionEnd hook |
 
-### Session Harvester (Claude Code hook)
+### Uninstall
 
 ```bash
-python3 collector/session_harvester.py              # Batch harvest all
-python3 collector/session_harvester.py --auto-harvest <session_id>  # Single
+launchctl unload ~/Library/LaunchAgents/com.valon.collector.plist
+rm -rf ~/.valon-collector ~/Library/LaunchAgents/com.valon.collector.plist
 ```
-
-### Git Tracker (all editors)
-
-For VS Code, Cursor, Copilot, Windsurf, Aider, etc.:
-
-```bash
-python3 collector/git_tracker.py
-```
-
-Detects sessions from file save patterns and git operations, extracts
-keywords from diffs, and auto-submits to the Hub.
 
 ---
 
 ## Demo Mode (evaluation / demo day)
 
-### Quick Start with Pre-built Data
+```bash
+bash install.sh       # pick option 3
+# — or directly —
+bash demo/install.sh
+```
 
-Three datasets ship pre-generated in `demo/demo_data/`:
+Sets up the full dashboard with pre-built sample data. Three company
+scenarios are included:
 
 | Preset | Company | Industry |
 |--------|---------|----------|
@@ -154,20 +141,14 @@ Three datasets ship pre-generated in `demo/demo_data/`:
 | `fintech` | NovaPay | Payment infrastructure & lending |
 | `medtech` | MedCore Systems | EHR integrations & clinical platforms |
 
-Each has 2,000 task records, 20 employees, 12 topics, Slack signals, and Jira tickets.
+Each has 2,000 task records, 20 employees, 12 topics, Slack signals, and
+Jira tickets.
 
-**Switch presets instantly:**
+**Switch presets instantly** (no reinstall needed):
 
 ```bash
-python3 demo/demo_switch.py startup    # or fintech, medtech
+python3 demo/demo_switch.py fintech    # or startup, medtech
 python3 hub/dashboard.py
-```
-
-### Generate Fresh Data
-
-```bash
-python3 demo/generate_fake_data.py     # Uses the active preset
-python3 hub/analytics.py               # Regenerate heatmaps + charts
 ```
 
 ---
@@ -191,13 +172,15 @@ Developer laptops (collectors)              Hub machine (leader)
 
 ### Security
 
-1. **TLS encryption** — self-signed certs, auto-generated on first run
-2. **API key auth** — unique key per collector, issued via pairing code
-3. **PBKDF2 password hashing** — 600K iterations with random salt
-4. **HMAC-SHA256** — record integrity verification
-5. **Rate limiting** — 60 req/min per IP (sliding window)
-6. **Secret scrubbing** — strips API keys, passwords, JWTs, AWS creds from all data
-7. **LLM prompt sanitization** — task data fields sanitized before Ollama prompts
+| Layer | Detail |
+|-------|--------|
+| TLS encryption | Self-signed certs, auto-generated on first run |
+| API key auth | Unique key per collector, issued via pairing code |
+| PBKDF2 password | 600K iterations + random salt for dashboard login |
+| HMAC-SHA256 | Record integrity verification on every submission |
+| Rate limiting | 60 req/min per IP (sliding window) |
+| Secret scrubbing | Strips API keys, passwords, JWTs, AWS creds from all data |
+| LLM sanitization | Task fields sanitized before Ollama prompts |
 
 ### Dashboard Tabs
 
@@ -206,7 +189,7 @@ Developer laptops (collectors)              Hub machine (leader)
 | **Overview** | Heatmap, key metrics, blind spots, model distribution |
 | **Efforts** | Epic-level effort tracking with status badges |
 | **Team Health** | Blind spot cards, AI action plans, curated resources |
-| **Predictions** | In-progress completion estimates, velocity forecasting, effort estimator |
+| **Predictions** | In-progress completion estimates, velocity forecasting |
 | **Slack** | Workspace patterns, employee signals, channel health |
 | **Code Insights** | Keyword hotspots, toxic pairs, convergence, AI fix prompts |
 
@@ -214,18 +197,8 @@ Developer laptops (collectors)              Hub machine (leader)
 
 ## Dependencies
 
-### Hub (6 packages)
+**Hub** — 6 pip packages (installed automatically):
+matplotlib, numpy, pandas, nicegui, zeroconf, pywebview
 
-| Package | Purpose |
-|---------|---------|
-| matplotlib | Charts and heatmaps |
-| numpy | Numerical computation |
-| pandas | Data analysis |
-| nicegui | Dashboard web UI |
-| zeroconf | Bonjour/mDNS LAN discovery |
-| pywebview | Native window (optional) |
-
-### Collector (0 packages at runtime)
-
-Pure Python stdlib. `zeroconf` is only needed during the one-time setup
-and can be uninstalled after.
+**Collector** — zero packages at runtime. `zeroconf` is installed during
+setup and can be removed after.
