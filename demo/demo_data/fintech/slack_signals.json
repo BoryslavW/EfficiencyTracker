@@ -1,0 +1,1778 @@
+{
+  "metadata": {
+    "ingested_at": "2026-07-09T20:12:56.204989+00:00",
+    "days_scanned": 14,
+    "channels_scanned": 12,
+    "total_messages_analyzed": 2667,
+    "employees_detected": 20,
+    "simulated": true
+  },
+  "employee_signals": {
+    "Amir Hassan": {
+      "slack_user_id": "U62640355",
+      "message_count": 96,
+      "thread_starts": 28,
+      "thread_replies": 28,
+      "threads_with_engagement": 20,
+      "avg_message_length": 119,
+      "code_blocks_shared": 34,
+      "attachments_shared": 7,
+      "tasks_requested_of_others": 14,
+      "tasks_completed_announced": 10,
+      "blockers_raised": 2,
+      "reviews_requested": 8,
+      "escalations": 0,
+      "help_seeking_count": 4,
+      "mentions_sent": 21,
+      "mentions_received": 21,
+      "mention_ratio": 1.0,
+      "ack_reactions_received": 17,
+      "completion_reactions_received": 3,
+      "jira_tickets_referenced": [
+        "PLT-77",
+        "CMP-55",
+        "PLT-100",
+        "RSK-82",
+        "PAY-12",
+        "CMP-98",
+        "PAY-15",
+        "RSK-22",
+        "PAY-60",
+        "RSK-49",
+        "LND-26",
+        "RSK-85",
+        "PLT-99",
+        "PAY-27"
+      ],
+      "jira_reference_count": 14,
+      "pr_references": [
+        "163",
+        "727",
+        "281",
+        "520",
+        "785",
+        "616",
+        "518",
+        "922",
+        "912"
+      ],
+      "pr_reference_count": 9,
+      "avg_thread_depth": 2.0,
+      "peak_hours": [
+        {
+          "hour": 11,
+          "count": 13
+        },
+        {
+          "hour": 15,
+          "count": 17
+        },
+        {
+          "hour": 17,
+          "count": 18
+        }
+      ],
+      "channel_type_distribution": {
+        "engineering": 16,
+        "project": 26,
+        "deploy": 8,
+        "review": 5,
+        "support": 12,
+        "standup": 15,
+        "incident": 18
+      },
+      "demand_score": 0.56,
+      "throughput_score": 0.83,
+      "collaboration_score": 1.48
+    },
+    "Brenda Zhao": {
+      "slack_user_id": "U45630468",
+      "message_count": 59,
+      "thread_starts": 9,
+      "thread_replies": 11,
+      "threads_with_engagement": 6,
+      "avg_message_length": 36,
+      "code_blocks_shared": 20,
+      "attachments_shared": 8,
+      "tasks_requested_of_others": 7,
+      "tasks_completed_announced": 10,
+      "blockers_raised": 1,
+      "reviews_requested": 7,
+      "escalations": 0,
+      "help_seeking_count": 2,
+      "mentions_sent": 15,
+      "mentions_received": 13,
+      "mention_ratio": 0.87,
+      "ack_reactions_received": 4,
+      "completion_reactions_received": 3,
+      "jira_tickets_referenced": [
+        "RSK-114",
+        "RSK-104",
+        "LND-121",
+        "PLT-119",
+        "RSK-151",
+        "PLT-105",
+        "RSK-131",
+        "LND-173"
+      ],
+      "jira_reference_count": 8,
+      "pr_references": [
+        "525",
+        "119",
+        "174"
+      ],
+      "pr_reference_count": 3,
+      "avg_thread_depth": 3.6,
+      "peak_hours": [
+        {
+          "hour": 10,
+          "count": 22
+        },
+        {
+          "hour": 14,
+          "count": 8
+        },
+        {
+          "hour": 15,
+          "count": 17
+        }
+      ],
+      "channel_type_distribution": {
+        "engineering": 6,
+        "project": 23,
+        "review": 17,
+        "support": 14,
+        "general": 15,
+        "incident": 4
+      },
+      "demand_score": 0.54,
+      "throughput_score": 0.94,
+      "collaboration_score": 1.32
+    },
+    "Carlos Mendez": {
+      "slack_user_id": "U53750868",
+      "message_count": 55,
+      "thread_starts": 17,
+      "thread_replies": 17,
+      "threads_with_engagement": 10,
+      "avg_message_length": 167,
+      "code_blocks_shared": 9,
+      "attachments_shared": 8,
+      "tasks_requested_of_others": 7,
+      "tasks_completed_announced": 6,
+      "blockers_raised": 4,
+      "reviews_requested": 2,
+      "escalations": 0,
+      "help_seeking_count": 5,
+      "mentions_sent": 14,
+      "mentions_received": 9,
+      "mention_ratio": 0.64,
+      "ack_reactions_received": 4,
+      "completion_reactions_received": 3,
+      "jira_tickets_referenced": [
+        "LND-273",
+        "RSK-285",
+        "PLT-232",
+        "RSK-237",
+        "PLT-253",
+        "PAY-276",
+        "PLT-239",
+        "PLT-281"
+      ],
+      "jira_reference_count": 8,
+      "pr_references": [
+        "702"
+      ],
+      "pr_reference_count": 1,
+      "avg_thread_depth": 2.3,
+      "peak_hours": [
+        {
+          "hour": 10,
+          "count": 10
+        },
+        {
+          "hour": 12,
+          "count": 8
+        },
+        {
+          "hour": 15,
+          "count": 15
+        }
+      ],
+      "channel_type_distribution": {
+        "engineering": 40,
+        "project": 11,
+        "deploy": 4,
+        "standup": 13,
+        "general": 18,
+        "incident": 12
+      },
+      "demand_score": 0.68,
+      "throughput_score": 0.7,
+      "collaboration_score": 1.05
+    },
+    "Diana Frost": {
+      "slack_user_id": "U58179042",
+      "message_count": 70,
+      "thread_starts": 19,
+      "thread_replies": 26,
+      "threads_with_engagement": 14,
+      "avg_message_length": 154,
+      "code_blocks_shared": 38,
+      "attachments_shared": 4,
+      "tasks_requested_of_others": 5,
+      "tasks_completed_announced": 6,
+      "blockers_raised": 3,
+      "reviews_requested": 7,
+      "escalations": 0,
+      "help_seeking_count": 4,
+      "mentions_sent": 10,
+      "mentions_received": 11,
+      "mention_ratio": 1.1,
+      "ack_reactions_received": 10,
+      "completion_reactions_received": 2,
+      "jira_tickets_referenced": [
+        "PAY-393",
+        "PLT-381",
+        "PLT-388",
+        "PLT-369",
+        "LND-356",
+        "PAY-347",
+        "PLT-355",
+        "RSK-357",
+        "CMP-322",
+        "CMP-326"
+      ],
+      "jira_reference_count": 10,
+      "pr_references": [
+        "905",
+        "331",
+        "267",
+        "654",
+        "235",
+        "668"
+      ],
+      "pr_reference_count": 6,
+      "avg_thread_depth": 2.0,
+      "peak_hours": [
+        {
+          "hour": 9,
+          "count": 8
+        },
+        {
+          "hour": 16,
+          "count": 20
+        },
+        {
+          "hour": 17,
+          "count": 9
+        }
+      ],
+      "channel_type_distribution": {
+        "engineering": 11,
+        "project": 19,
+        "support": 10
+      },
+      "demand_score": 0.53,
+      "throughput_score": 0.74,
+      "collaboration_score": 1.9
+    },
+    "Elijah Okonkwo": {
+      "slack_user_id": "U28741185",
+      "message_count": 131,
+      "thread_starts": 43,
+      "thread_replies": 42,
+      "threads_with_engagement": 27,
+      "avg_message_length": 93,
+      "code_blocks_shared": 40,
+      "attachments_shared": 5,
+      "tasks_requested_of_others": 16,
+      "tasks_completed_announced": 9,
+      "blockers_raised": 8,
+      "reviews_requested": 7,
+      "escalations": 1,
+      "help_seeking_count": 8,
+      "mentions_sent": 38,
+      "mentions_received": 13,
+      "mention_ratio": 0.34,
+      "ack_reactions_received": 19,
+      "completion_reactions_received": 4,
+      "jira_tickets_referenced": [
+        "PLT-493",
+        "LND-497",
+        "RSK-466",
+        "CMP-424",
+        "CMP-477",
+        "RSK-488",
+        "LND-469",
+        "LND-457",
+        "LND-433",
+        "RSK-452",
+        "PLT-453",
+        "LND-438",
+        "LND-461",
+        "CMP-415",
+        "PLT-473",
+        "CMP-410",
+        "LND-487",
+        "RSK-479",
+        "CMP-407"
+      ],
+      "jira_reference_count": 19,
+      "pr_references": [
+        "190",
+        "238",
+        "272"
+      ],
+      "pr_reference_count": 3,
+      "avg_thread_depth": 4.5,
+      "peak_hours": [
+        {
+          "hour": 12,
+          "count": 22
+        },
+        {
+          "hour": 13,
+          "count": 13
+        },
+        {
+          "hour": 16,
+          "count": 13
+        }
+      ],
+      "channel_type_distribution": {
+        "engineering": 28,
+        "project": 23,
+        "review": 6,
+        "incident": 33,
+        "standup": 11
+      },
+      "demand_score": 0.5,
+      "throughput_score": 0.54,
+      "collaboration_score": 1.38
+    },
+    "Fatima Al-Rashid": {
+      "slack_user_id": "U89135892",
+      "message_count": 60,
+      "thread_starts": 20,
+      "thread_replies": 15,
+      "threads_with_engagement": 14,
+      "avg_message_length": 160,
+      "code_blocks_shared": 30,
+      "attachments_shared": 2,
+      "tasks_requested_of_others": 7,
+      "tasks_completed_announced": 3,
+      "blockers_raised": 1,
+      "reviews_requested": 8,
+      "escalations": 0,
+      "help_seeking_count": 2,
+      "mentions_sent": 16,
+      "mentions_received": 10,
+      "mention_ratio": 0.62,
+      "ack_reactions_received": 5,
+      "completion_reactions_received": 2,
+      "jira_tickets_referenced": [
+        "RSK-558",
+        "RSK-545",
+        "PLT-600",
+        "RSK-580",
+        "LND-593",
+        "RSK-574",
+        "CMP-564",
+        "RSK-554",
+        "RSK-510"
+      ],
+      "jira_reference_count": 9,
+      "pr_references": [
+        "378",
+        "861",
+        "506",
+        "345",
+        "734"
+      ],
+      "pr_reference_count": 5,
+      "avg_thread_depth": 4.1,
+      "peak_hours": [
+        {
+          "hour": 10,
+          "count": 23
+        },
+        {
+          "hour": 11,
+          "count": 13
+        },
+        {
+          "hour": 17,
+          "count": 14
+        }
+      ],
+      "channel_type_distribution": {
+        "engineering": 9,
+        "project": 3,
+        "review": 13,
+        "support": 18,
+        "incident": 22,
+        "general": 10
+      },
+      "demand_score": 0.43,
+      "throughput_score": 0.65,
+      "collaboration_score": 1.87
+    },
+    "George Petrov": {
+      "slack_user_id": "U94626326",
+      "message_count": 101,
+      "thread_starts": 15,
+      "thread_replies": 17,
+      "threads_with_engagement": 11,
+      "avg_message_length": 131,
+      "code_blocks_shared": 16,
+      "attachments_shared": 2,
+      "tasks_requested_of_others": 5,
+      "tasks_completed_announced": 5,
+      "blockers_raised": 5,
+      "reviews_requested": 7,
+      "escalations": 1,
+      "help_seeking_count": 6,
+      "mentions_sent": 21,
+      "mentions_received": 16,
+      "mention_ratio": 0.76,
+      "ack_reactions_received": 16,
+      "completion_reactions_received": 1,
+      "jira_tickets_referenced": [
+        "CMP-683",
+        "PLT-694",
+        "LND-642",
+        "LND-656",
+        "RSK-690",
+        "CMP-660",
+        "RSK-684",
+        "RSK-653",
+        "PLT-658",
+        "CMP-655",
+        "PAY-693",
+        "RSK-631",
+        "LND-609",
+        "PAY-663",
+        "RSK-665"
+      ],
+      "jira_reference_count": 15,
+      "pr_references": [
+        "134",
+        "435",
+        "524",
+        "830",
+        "448"
+      ],
+      "pr_reference_count": 5,
+      "avg_thread_depth": 3.1,
+      "peak_hours": [
+        {
+          "hour": 12,
+          "count": 19
+        },
+        {
+          "hour": 14,
+          "count": 8
+        },
+        {
+          "hour": 17,
+          "count": 18
+        }
+      ],
+      "channel_type_distribution": {
+        "engineering": 22,
+        "project": 15,
+        "review": 18,
+        "incident": 38,
+        "standup": 20,
+        "general": 17
+      },
+      "demand_score": 0.59,
+      "throughput_score": 0.51,
+      "collaboration_score": 0.83
+    },
+    "Hannah Olsen": {
+      "slack_user_id": "U15389643",
+      "message_count": 82,
+      "thread_starts": 23,
+      "thread_replies": 13,
+      "threads_with_engagement": 12,
+      "avg_message_length": 167,
+      "code_blocks_shared": 34,
+      "attachments_shared": 3,
+      "tasks_requested_of_others": 4,
+      "tasks_completed_announced": 2,
+      "blockers_raised": 7,
+      "reviews_requested": 4,
+      "escalations": 1,
+      "help_seeking_count": 7,
+      "mentions_sent": 20,
+      "mentions_received": 20,
+      "mention_ratio": 1.0,
+      "ack_reactions_received": 6,
+      "completion_reactions_received": 0,
+      "jira_tickets_referenced": [
+        "PAY-708",
+        "LND-750",
+        "CMP-715",
+        "PAY-747",
+        "PLT-709",
+        "CMP-741",
+        "LND-776",
+        "CMP-756",
+        "RSK-763",
+        "PLT-771",
+        "RSK-764",
+        "PAY-782"
+      ],
+      "jira_reference_count": 12,
+      "pr_references": [
+        "268",
+        "674"
+      ],
+      "pr_reference_count": 2,
+      "avg_thread_depth": 1.9,
+      "peak_hours": [
+        {
+          "hour": 10,
+          "count": 20
+        },
+        {
+          "hour": 15,
+          "count": 19
+        },
+        {
+          "hour": 17,
+          "count": 21
+        }
+      ],
+      "channel_type_distribution": {
+        "engineering": 30,
+        "project": 21,
+        "deploy": 18,
+        "review": 10,
+        "support": 8,
+        "incident": 29,
+        "standup": 11
+      },
+      "demand_score": 0.92,
+      "throughput_score": 0.35,
+      "collaboration_score": 1.37
+    },
+    "Ivan Kovac": {
+      "slack_user_id": "U48218117",
+      "message_count": 221,
+      "thread_starts": 50,
+      "thread_replies": 53,
+      "threads_with_engagement": 42,
+      "avg_message_length": 128,
+      "code_blocks_shared": 79,
+      "attachments_shared": 5,
+      "tasks_requested_of_others": 12,
+      "tasks_completed_announced": 16,
+      "blockers_raised": 9,
+      "reviews_requested": 35,
+      "escalations": 3,
+      "help_seeking_count": 9,
+      "mentions_sent": 28,
+      "mentions_received": 43,
+      "mention_ratio": 1.54,
+      "ack_reactions_received": 49,
+      "completion_reactions_received": 10,
+      "jira_tickets_referenced": [
+        "LND-889",
+        "RSK-817",
+        "LND-815",
+        "PLT-802",
+        "LND-803",
+        "RSK-801",
+        "PLT-818",
+        "CMP-862",
+        "PAY-845",
+        "PAY-898",
+        "PAY-864",
+        "PAY-836",
+        "PLT-814",
+        "PAY-813",
+        "LND-834",
+        "CMP-852",
+        "LND-829",
+        "RSK-899",
+        "PAY-861",
+        "LND-895",
+        "LND-847",
+        "PLT-884",
+        "CMP-821",
+        "LND-844",
+        "CMP-893",
+        "RSK-841",
+        "CMP-858",
+        "RSK-882",
+        "PAY-830",
+        "LND-867",
+        "CMP-809",
+        "CMP-822",
+        "RSK-832"
+      ],
+      "jira_reference_count": 33,
+      "pr_references": [
+        "403",
+        "422",
+        "250",
+        "232",
+        "944",
+        "691",
+        "681",
+        "820",
+        "325",
+        "413",
+        "344",
+        "157",
+        "700",
+        "610",
+        "707",
+        "763",
+        "276",
+        "590",
+        "891"
+      ],
+      "pr_reference_count": 19,
+      "avg_thread_depth": 4.1,
+      "peak_hours": [
+        {
+          "hour": 10,
+          "count": 17
+        },
+        {
+          "hour": 11,
+          "count": 11
+        },
+        {
+          "hour": 13,
+          "count": 11
+        }
+      ],
+      "channel_type_distribution": {
+        "engineering": 21,
+        "project": 19,
+        "deploy": 4,
+        "review": 17,
+        "support": 10,
+        "standup": 8,
+        "general": 4,
+        "incident": 4
+      },
+      "demand_score": 0.63,
+      "throughput_score": 0.75,
+      "collaboration_score": 1.46
+    },
+    "Julia Santos": {
+      "slack_user_id": "U98075400",
+      "message_count": 38,
+      "thread_starts": 8,
+      "thread_replies": 11,
+      "threads_with_engagement": 5,
+      "avg_message_length": 45,
+      "code_blocks_shared": 4,
+      "attachments_shared": 9,
+      "tasks_requested_of_others": 4,
+      "tasks_completed_announced": 5,
+      "blockers_raised": 1,
+      "reviews_requested": 3,
+      "escalations": 0,
+      "help_seeking_count": 2,
+      "mentions_sent": 8,
+      "mentions_received": 4,
+      "mention_ratio": 0.5,
+      "ack_reactions_received": 5,
+      "completion_reactions_received": 3,
+      "jira_tickets_referenced": [
+        "PAY-929",
+        "LND-964",
+        "CMP-955",
+        "PLT-996",
+        "CMP-999"
+      ],
+      "jira_reference_count": 5,
+      "pr_references": [
+        "756",
+        "391",
+        "219",
+        "130"
+      ],
+      "pr_reference_count": 4,
+      "avg_thread_depth": 3.4,
+      "peak_hours": [
+        {
+          "hour": 13,
+          "count": 23
+        },
+        {
+          "hour": 14,
+          "count": 19
+        },
+        {
+          "hour": 16,
+          "count": 25
+        }
+      ],
+      "channel_type_distribution": {
+        "engineering": 29,
+        "project": 3,
+        "deploy": 17,
+        "support": 8,
+        "incident": 16,
+        "general": 5
+      },
+      "demand_score": 0.37,
+      "throughput_score": 1.01,
+      "collaboration_score": 0.93
+    },
+    "Kevin Tran": {
+      "slack_user_id": "U27868723",
+      "message_count": 90,
+      "thread_starts": 17,
+      "thread_replies": 22,
+      "threads_with_engagement": 13,
+      "avg_message_length": 80,
+      "code_blocks_shared": 13,
+      "attachments_shared": 3,
+      "tasks_requested_of_others": 9,
+      "tasks_completed_announced": 9,
+      "blockers_raised": 11,
+      "reviews_requested": 8,
+      "escalations": 4,
+      "help_seeking_count": 12,
+      "mentions_sent": 11,
+      "mentions_received": 12,
+      "mention_ratio": 1.09,
+      "ack_reactions_received": 23,
+      "completion_reactions_received": 4,
+      "jira_tickets_referenced": [
+        "LND-1033",
+        "CMP-1067",
+        "PLT-1053",
+        "LND-1089",
+        "LND-1050",
+        "CMP-1085",
+        "CMP-1043",
+        "PAY-1002",
+        "LND-1035",
+        "LND-1097",
+        "CMP-1031",
+        "PLT-1094",
+        "LND-1061"
+      ],
+      "jira_reference_count": 13,
+      "pr_references": [
+        "519",
+        "293",
+        "497",
+        "989",
+        "449",
+        "574",
+        "739",
+        "385",
+        "951",
+        "481"
+      ],
+      "pr_reference_count": 10,
+      "avg_thread_depth": 2.3,
+      "peak_hours": [
+        {
+          "hour": 11,
+          "count": 8
+        },
+        {
+          "hour": 13,
+          "count": 20
+        },
+        {
+          "hour": 16,
+          "count": 19
+        }
+      ],
+      "channel_type_distribution": {
+        "engineering": 47,
+        "project": 29,
+        "review": 3,
+        "support": 11,
+        "standup": 16,
+        "general": 14
+      },
+      "demand_score": 1.01,
+      "throughput_score": 0.88,
+      "collaboration_score": 0.91
+    },
+    "Linda Park": {
+      "slack_user_id": "U44145784",
+      "message_count": 104,
+      "thread_starts": 35,
+      "thread_replies": 34,
+      "threads_with_engagement": 25,
+      "avg_message_length": 119,
+      "code_blocks_shared": 17,
+      "attachments_shared": 2,
+      "tasks_requested_of_others": 14,
+      "tasks_completed_announced": 16,
+      "blockers_raised": 7,
+      "reviews_requested": 7,
+      "escalations": 2,
+      "help_seeking_count": 8,
+      "mentions_sent": 17,
+      "mentions_received": 23,
+      "mention_ratio": 1.35,
+      "ack_reactions_received": 20,
+      "completion_reactions_received": 5,
+      "jira_tickets_referenced": [
+        "PLT-1105",
+        "CMP-1124",
+        "CMP-1172",
+        "PLT-1195",
+        "LND-1152",
+        "PLT-1166",
+        "CMP-1181",
+        "PLT-1117",
+        "PAY-1135",
+        "LND-1199",
+        "PLT-1157",
+        "CMP-1179",
+        "LND-1160",
+        "RSK-1197",
+        "PLT-1164"
+      ],
+      "jira_reference_count": 15,
+      "pr_references": [
+        "479",
+        "193",
+        "240",
+        "982"
+      ],
+      "pr_reference_count": 4,
+      "avg_thread_depth": 4.5,
+      "peak_hours": [
+        {
+          "hour": 9,
+          "count": 13
+        },
+        {
+          "hour": 12,
+          "count": 13
+        },
+        {
+          "hour": 15,
+          "count": 12
+        }
+      ],
+      "channel_type_distribution": {
+        "engineering": 34,
+        "project": 22,
+        "deploy": 8,
+        "review": 20,
+        "support": 4,
+        "incident": 22,
+        "standup": 14
+      },
+      "demand_score": 0.84,
+      "throughput_score": 0.87,
+      "collaboration_score": 1.11
+    },
+    "Marco Ricci": {
+      "slack_user_id": "U58835280",
+      "message_count": 160,
+      "thread_starts": 25,
+      "thread_replies": 33,
+      "threads_with_engagement": 16,
+      "avg_message_length": 60,
+      "code_blocks_shared": 56,
+      "attachments_shared": 4,
+      "tasks_requested_of_others": 13,
+      "tasks_completed_announced": 8,
+      "blockers_raised": 15,
+      "reviews_requested": 9,
+      "escalations": 4,
+      "help_seeking_count": 17,
+      "mentions_sent": 40,
+      "mentions_received": 14,
+      "mention_ratio": 0.35,
+      "ack_reactions_received": 28,
+      "completion_reactions_received": 5,
+      "jira_tickets_referenced": [
+        "LND-1239",
+        "CMP-1253",
+        "LND-1234",
+        "PLT-1225",
+        "RSK-1238",
+        "CMP-1236",
+        "CMP-1269",
+        "CMP-1203",
+        "PLT-1254",
+        "LND-1275",
+        "LND-1262",
+        "PLT-1235",
+        "LND-1230",
+        "PLT-1281",
+        "PLT-1257",
+        "LND-1212",
+        "LND-1284",
+        "PAY-1292",
+        "PLT-1207",
+        "PLT-1268",
+        "PAY-1273",
+        "PAY-1206",
+        "RSK-1287",
+        "PLT-1272"
+      ],
+      "jira_reference_count": 24,
+      "pr_references": [
+        "130",
+        "191",
+        "695",
+        "173",
+        "190",
+        "834",
+        "834",
+        "940",
+        "884",
+        "263",
+        "437"
+      ],
+      "pr_reference_count": 11,
+      "avg_thread_depth": 3.0,
+      "peak_hours": [
+        {
+          "hour": 11,
+          "count": 24
+        },
+        {
+          "hour": 15,
+          "count": 17
+        },
+        {
+          "hour": 16,
+          "count": 19
+        }
+      ],
+      "channel_type_distribution": {
+        "engineering": 42,
+        "project": 16,
+        "review": 8,
+        "support": 5,
+        "incident": 30,
+        "standup": 6,
+        "general": 16
+      },
+      "demand_score": 0.72,
+      "throughput_score": 0.61,
+      "collaboration_score": 1.24
+    },
+    "Nina Johansson": {
+      "slack_user_id": "U85335351",
+      "message_count": 124,
+      "thread_starts": 33,
+      "thread_replies": 22,
+      "threads_with_engagement": 25,
+      "avg_message_length": 71,
+      "code_blocks_shared": 37,
+      "attachments_shared": 2,
+      "tasks_requested_of_others": 17,
+      "tasks_completed_announced": 14,
+      "blockers_raised": 6,
+      "reviews_requested": 9,
+      "escalations": 2,
+      "help_seeking_count": 7,
+      "mentions_sent": 15,
+      "mentions_received": 19,
+      "mention_ratio": 1.27,
+      "ack_reactions_received": 18,
+      "completion_reactions_received": 6,
+      "jira_tickets_referenced": [
+        "RSK-1308",
+        "CMP-1342",
+        "LND-1355",
+        "CMP-1320",
+        "PAY-1348",
+        "CMP-1349",
+        "CMP-1337",
+        "LND-1372",
+        "RSK-1334",
+        "RSK-1377",
+        "CMP-1317",
+        "PAY-1379",
+        "PLT-1359",
+        "RSK-1369",
+        "CMP-1313",
+        "LND-1375",
+        "PLT-1318",
+        "PAY-1341"
+      ],
+      "jira_reference_count": 18,
+      "pr_references": [
+        "918",
+        "911",
+        "138",
+        "625"
+      ],
+      "pr_reference_count": 4,
+      "avg_thread_depth": 4.9,
+      "peak_hours": [
+        {
+          "hour": 11,
+          "count": 9
+        },
+        {
+          "hour": 13,
+          "count": 9
+        },
+        {
+          "hour": 15,
+          "count": 13
+        }
+      ],
+      "channel_type_distribution": {
+        "engineering": 17,
+        "project": 15,
+        "review": 15,
+        "support": 4,
+        "incident": 7,
+        "standup": 3,
+        "general": 15
+      },
+      "demand_score": 0.6,
+      "throughput_score": 0.73,
+      "collaboration_score": 1.17
+    },
+    "Oscar Blanco": {
+      "slack_user_id": "U24257706",
+      "message_count": 172,
+      "thread_starts": 33,
+      "thread_replies": 16,
+      "threads_with_engagement": 24,
+      "avg_message_length": 154,
+      "code_blocks_shared": 57,
+      "attachments_shared": 1,
+      "tasks_requested_of_others": 12,
+      "tasks_completed_announced": 16,
+      "blockers_raised": 7,
+      "reviews_requested": 21,
+      "escalations": 2,
+      "help_seeking_count": 8,
+      "mentions_sent": 33,
+      "mentions_received": 25,
+      "mention_ratio": 0.76,
+      "ack_reactions_received": 14,
+      "completion_reactions_received": 6,
+      "jira_tickets_referenced": [
+        "PLT-1464",
+        "RSK-1486",
+        "LND-1401",
+        "RSK-1434",
+        "PLT-1475",
+        "LND-1497",
+        "LND-1444",
+        "CMP-1435",
+        "PAY-1430",
+        "PLT-1431",
+        "LND-1491",
+        "PLT-1458",
+        "CMP-1460",
+        "CMP-1439",
+        "RSK-1472",
+        "RSK-1474",
+        "PAY-1463",
+        "PLT-1412",
+        "LND-1484",
+        "CMP-1420",
+        "CMP-1461",
+        "CMP-1405",
+        "PAY-1432",
+        "LND-1453",
+        "RSK-1493"
+      ],
+      "jira_reference_count": 25,
+      "pr_references": [
+        "148",
+        "391",
+        "883",
+        "780",
+        "224",
+        "760",
+        "853",
+        "658",
+        "486",
+        "679",
+        "226",
+        "279"
+      ],
+      "pr_reference_count": 12,
+      "avg_thread_depth": 4.1,
+      "peak_hours": [
+        {
+          "hour": 10,
+          "count": 10
+        },
+        {
+          "hour": 11,
+          "count": 16
+        },
+        {
+          "hour": 14,
+          "count": 15
+        }
+      ],
+      "channel_type_distribution": {
+        "engineering": 18,
+        "project": 6,
+        "deploy": 19,
+        "review": 4,
+        "incident": 7,
+        "standup": 17
+      },
+      "demand_score": 0.53,
+      "throughput_score": 0.74,
+      "collaboration_score": 1.19
+    },
+    "Priya Sharma": {
+      "slack_user_id": "U57001989",
+      "message_count": 53,
+      "thread_starts": 13,
+      "thread_replies": 6,
+      "threads_with_engagement": 6,
+      "avg_message_length": 187,
+      "code_blocks_shared": 8,
+      "attachments_shared": 10,
+      "tasks_requested_of_others": 3,
+      "tasks_completed_announced": 1,
+      "blockers_raised": 4,
+      "reviews_requested": 4,
+      "escalations": 0,
+      "help_seeking_count": 5,
+      "mentions_sent": 13,
+      "mentions_received": 4,
+      "mention_ratio": 0.31,
+      "ack_reactions_received": 7,
+      "completion_reactions_received": 0,
+      "jira_tickets_referenced": [
+        "PLT-1591",
+        "RSK-1513",
+        "LND-1510",
+        "PAY-1527",
+        "PLT-1589",
+        "RSK-1505",
+        "RSK-1562"
+      ],
+      "jira_reference_count": 7,
+      "pr_references": [
+        "910",
+        "211",
+        "901",
+        "522"
+      ],
+      "pr_reference_count": 4,
+      "avg_thread_depth": 4.6,
+      "peak_hours": [
+        {
+          "hour": 13,
+          "count": 14
+        },
+        {
+          "hour": 15,
+          "count": 24
+        },
+        {
+          "hour": 16,
+          "count": 19
+        }
+      ],
+      "channel_type_distribution": {
+        "engineering": 13,
+        "project": 22,
+        "deploy": 7,
+        "support": 20,
+        "incident": 3
+      },
+      "demand_score": 0.52,
+      "throughput_score": 0.44,
+      "collaboration_score": 0.81
+    },
+    "Reuben Stein": {
+      "slack_user_id": "U25901101",
+      "message_count": 112,
+      "thread_starts": 31,
+      "thread_replies": 25,
+      "threads_with_engagement": 20,
+      "avg_message_length": 151,
+      "code_blocks_shared": 60,
+      "attachments_shared": 7,
+      "tasks_requested_of_others": 10,
+      "tasks_completed_announced": 6,
+      "blockers_raised": 16,
+      "reviews_requested": 19,
+      "escalations": 3,
+      "help_seeking_count": 17,
+      "mentions_sent": 21,
+      "mentions_received": 23,
+      "mention_ratio": 1.1,
+      "ack_reactions_received": 6,
+      "completion_reactions_received": 3,
+      "jira_tickets_referenced": [
+        "CMP-1610",
+        "PLT-1632",
+        "RSK-1671",
+        "RSK-1660",
+        "PAY-1670",
+        "LND-1630",
+        "CMP-1620",
+        "PLT-1614",
+        "RSK-1602",
+        "PAY-1605",
+        "RSK-1672",
+        "CMP-1612",
+        "RSK-1676",
+        "PAY-1647",
+        "PAY-1687",
+        "LND-1684"
+      ],
+      "jira_reference_count": 16,
+      "pr_references": [
+        "165",
+        "643",
+        "928",
+        "617",
+        "807",
+        "222",
+        "748",
+        "579",
+        "216",
+        "613",
+        "886",
+        "500",
+        "749",
+        "663",
+        "908",
+        "834",
+        "656",
+        "797",
+        "519"
+      ],
+      "pr_reference_count": 19,
+      "avg_thread_depth": 1.7,
+      "peak_hours": [
+        {
+          "hour": 10,
+          "count": 14
+        },
+        {
+          "hour": 13,
+          "count": 14
+        },
+        {
+          "hour": 15,
+          "count": 12
+        }
+      ],
+      "channel_type_distribution": {
+        "engineering": 32,
+        "project": 14,
+        "deploy": 13,
+        "support": 13,
+        "standup": 13,
+        "general": 12,
+        "incident": 6
+      },
+      "demand_score": 1.17,
+      "throughput_score": 0.85,
+      "collaboration_score": 1.85
+    },
+    "Sofia Andersson": {
+      "slack_user_id": "U71560292",
+      "message_count": 177,
+      "thread_starts": 42,
+      "thread_replies": 19,
+      "threads_with_engagement": 33,
+      "avg_message_length": 161,
+      "code_blocks_shared": 69,
+      "attachments_shared": 4,
+      "tasks_requested_of_others": 15,
+      "tasks_completed_announced": 14,
+      "blockers_raised": 13,
+      "reviews_requested": 14,
+      "escalations": 2,
+      "help_seeking_count": 16,
+      "mentions_sent": 48,
+      "mentions_received": 23,
+      "mention_ratio": 0.48,
+      "ack_reactions_received": 27,
+      "completion_reactions_received": 6,
+      "jira_tickets_referenced": [
+        "PAY-1778",
+        "CMP-1791",
+        "CMP-1790",
+        "CMP-1725",
+        "LND-1716",
+        "CMP-1722",
+        "RSK-1788",
+        "LND-1765",
+        "LND-1743",
+        "CMP-1763",
+        "PLT-1753",
+        "RSK-1702",
+        "CMP-1767",
+        "RSK-1729",
+        "LND-1711",
+        "RSK-1787",
+        "PAY-1750",
+        "PAY-1708",
+        "PAY-1707",
+        "PAY-1762",
+        "CMP-1745",
+        "CMP-1769",
+        "PAY-1720",
+        "RSK-1799",
+        "CMP-1783",
+        "LND-1749"
+      ],
+      "jira_reference_count": 26,
+      "pr_references": [
+        "703",
+        "201",
+        "419",
+        "397",
+        "643",
+        "565",
+        "823",
+        "699",
+        "399",
+        "599",
+        "128",
+        "374",
+        "703",
+        "613",
+        "711",
+        "127"
+      ],
+      "pr_reference_count": 16,
+      "avg_thread_depth": 2.2,
+      "peak_hours": [
+        {
+          "hour": 11,
+          "count": 12
+        },
+        {
+          "hour": 15,
+          "count": 20
+        },
+        {
+          "hour": 17,
+          "count": 11
+        }
+      ],
+      "channel_type_distribution": {
+        "engineering": 38,
+        "project": 8,
+        "review": 15,
+        "support": 6,
+        "incident": 14,
+        "general": 19
+      },
+      "demand_score": 0.66,
+      "throughput_score": 0.75,
+      "collaboration_score": 1.34
+    },
+    "Tariq Hussain": {
+      "slack_user_id": "U84957541",
+      "message_count": 141,
+      "thread_starts": 44,
+      "thread_replies": 20,
+      "threads_with_engagement": 24,
+      "avg_message_length": 147,
+      "code_blocks_shared": 32,
+      "attachments_shared": 8,
+      "tasks_requested_of_others": 11,
+      "tasks_completed_announced": 11,
+      "blockers_raised": 2,
+      "reviews_requested": 8,
+      "escalations": 0,
+      "help_seeking_count": 2,
+      "mentions_sent": 20,
+      "mentions_received": 19,
+      "mention_ratio": 0.95,
+      "ack_reactions_received": 25,
+      "completion_reactions_received": 8,
+      "jira_tickets_referenced": [
+        "CMP-1858",
+        "LND-1900",
+        "PAY-1851",
+        "RSK-1855",
+        "CMP-1887",
+        "CMP-1803",
+        "PAY-1834",
+        "RSK-1867",
+        "CMP-1853",
+        "RSK-1847",
+        "RSK-1897",
+        "RSK-1854",
+        "RSK-1896",
+        "CMP-1889",
+        "LND-1888",
+        "CMP-1841",
+        "RSK-1859",
+        "RSK-1846",
+        "LND-1892",
+        "CMP-1861",
+        "PLT-1864"
+      ],
+      "jira_reference_count": 21,
+      "pr_references": [
+        "114",
+        "635",
+        "370",
+        "633",
+        "784",
+        "248",
+        "701",
+        "591",
+        "295",
+        "363"
+      ],
+      "pr_reference_count": 10,
+      "avg_thread_depth": 1.7,
+      "peak_hours": [
+        {
+          "hour": 13,
+          "count": 16
+        },
+        {
+          "hour": 15,
+          "count": 9
+        },
+        {
+          "hour": 17,
+          "count": 9
+        }
+      ],
+      "channel_type_distribution": {
+        "engineering": 30,
+        "project": 17,
+        "deploy": 15,
+        "support": 10,
+        "incident": 22,
+        "standup": 20,
+        "general": 12
+      },
+      "demand_score": 0.33,
+      "throughput_score": 0.75,
+      "collaboration_score": 0.95
+    },
+    "Uma Patel": {
+      "slack_user_id": "U36563527",
+      "message_count": 71,
+      "thread_starts": 11,
+      "thread_replies": 10,
+      "threads_with_engagement": 7,
+      "avg_message_length": 110,
+      "code_blocks_shared": 22,
+      "attachments_shared": 2,
+      "tasks_requested_of_others": 4,
+      "tasks_completed_announced": 4,
+      "blockers_raised": 1,
+      "reviews_requested": 3,
+      "escalations": 0,
+      "help_seeking_count": 1,
+      "mentions_sent": 17,
+      "mentions_received": 9,
+      "mention_ratio": 0.53,
+      "ack_reactions_received": 14,
+      "completion_reactions_received": 1,
+      "jira_tickets_referenced": [
+        "PLT-1912",
+        "PAY-1975",
+        "RSK-1993",
+        "LND-1972",
+        "PAY-1905",
+        "PLT-1978",
+        "RSK-1962",
+        "PLT-1988",
+        "RSK-1940",
+        "LND-1999"
+      ],
+      "jira_reference_count": 10,
+      "pr_references": [
+        "634",
+        "515",
+        "991"
+      ],
+      "pr_reference_count": 3,
+      "avg_thread_depth": 2.7,
+      "peak_hours": [
+        {
+          "hour": 10,
+          "count": 8
+        },
+        {
+          "hour": 13,
+          "count": 14
+        },
+        {
+          "hour": 16,
+          "count": 19
+        }
+      ],
+      "channel_type_distribution": {
+        "engineering": 22,
+        "deploy": 19,
+        "review": 8,
+        "support": 3,
+        "incident": 32,
+        "standup": 19,
+        "general": 6
+      },
+      "demand_score": 0.32,
+      "throughput_score": 0.51,
+      "collaboration_score": 1.09
+    }
+  },
+  "channel_signals": [
+    {
+      "channel_name": "engineering",
+      "channel_type": "engineering",
+      "total_messages": 433,
+      "unique_users": 20,
+      "messages_per_day": 31.0,
+      "task_requests": 72,
+      "completions": 41,
+      "blockers": 28,
+      "reviews": 30,
+      "escalations": 3,
+      "thread_count": 200,
+      "thread_reply_count": 510,
+      "thread_ratio": 2.5,
+      "code_message_ratio": 0.19,
+      "task_completion_ratio": 0.57,
+      "blocker_rate": 0.065,
+      "escalation_rate": 0.007
+    },
+    {
+      "channel_name": "payments-eng",
+      "channel_type": "engineering",
+      "total_messages": 349,
+      "unique_users": 20,
+      "messages_per_day": 25.0,
+      "task_requests": 71,
+      "completions": 51,
+      "blockers": 22,
+      "reviews": 18,
+      "escalations": 2,
+      "thread_count": 73,
+      "thread_reply_count": 178,
+      "thread_ratio": 2.4,
+      "code_message_ratio": 0.21,
+      "task_completion_ratio": 0.72,
+      "blocker_rate": 0.063,
+      "escalation_rate": 0.006
+    },
+    {
+      "channel_name": "compliance-eng",
+      "channel_type": "engineering",
+      "total_messages": 262,
+      "unique_users": 16,
+      "messages_per_day": 18.8,
+      "task_requests": 47,
+      "completions": 42,
+      "blockers": 25,
+      "reviews": 35,
+      "escalations": 4,
+      "thread_count": 80,
+      "thread_reply_count": 314,
+      "thread_ratio": 3.9,
+      "code_message_ratio": 0.16,
+      "task_completion_ratio": 0.89,
+      "blocker_rate": 0.095,
+      "escalation_rate": 0.015
+    },
+    {
+      "channel_name": "proj-settlement",
+      "channel_type": "project",
+      "total_messages": 244,
+      "unique_users": 7,
+      "messages_per_day": 17.5,
+      "task_requests": 58,
+      "completions": 51,
+      "blockers": 19,
+      "reviews": 18,
+      "escalations": 4,
+      "thread_count": 58,
+      "thread_reply_count": 216,
+      "thread_ratio": 3.7,
+      "code_message_ratio": 0.01,
+      "task_completion_ratio": 0.88,
+      "blocker_rate": 0.078,
+      "escalation_rate": 0.016
+    },
+    {
+      "channel_name": "proj-aml",
+      "channel_type": "project",
+      "total_messages": 340,
+      "unique_users": 17,
+      "messages_per_day": 24.3,
+      "task_requests": 74,
+      "completions": 43,
+      "blockers": 26,
+      "reviews": 19,
+      "escalations": 4,
+      "thread_count": 89,
+      "thread_reply_count": 238,
+      "thread_ratio": 2.7,
+      "code_message_ratio": 0.06,
+      "task_completion_ratio": 0.58,
+      "blocker_rate": 0.076,
+      "escalation_rate": 0.012
+    },
+    {
+      "channel_name": "releases",
+      "channel_type": "deploy",
+      "total_messages": 209,
+      "unique_users": 7,
+      "messages_per_day": 14.9,
+      "task_requests": 19,
+      "completions": 14,
+      "blockers": 32,
+      "reviews": 22,
+      "escalations": 7,
+      "thread_count": 90,
+      "thread_reply_count": 225,
+      "thread_ratio": 2.5,
+      "code_message_ratio": 0.05,
+      "task_completion_ratio": 0.74,
+      "blocker_rate": 0.153,
+      "escalation_rate": 0.033
+    },
+    {
+      "channel_name": "pr-reviews",
+      "channel_type": "review",
+      "total_messages": 252,
+      "unique_users": 11,
+      "messages_per_day": 18.0,
+      "task_requests": 27,
+      "completions": 21,
+      "blockers": 13,
+      "reviews": 31,
+      "escalations": 3,
+      "thread_count": 115,
+      "thread_reply_count": 236,
+      "thread_ratio": 2.1,
+      "code_message_ratio": 0.24,
+      "task_completion_ratio": 0.78,
+      "blocker_rate": 0.052,
+      "escalation_rate": 0.012
+    },
+    {
+      "channel_name": "ask-engineering",
+      "channel_type": "support",
+      "total_messages": 81,
+      "unique_users": 3,
+      "messages_per_day": 5.8,
+      "task_requests": 5,
+      "completions": 4,
+      "blockers": 16,
+      "reviews": 9,
+      "escalations": 1,
+      "thread_count": 30,
+      "thread_reply_count": 90,
+      "thread_ratio": 3.0,
+      "code_message_ratio": 0.05,
+      "task_completion_ratio": 0.8,
+      "blocker_rate": 0.198,
+      "escalation_rate": 0.012
+    },
+    {
+      "channel_name": "incidents",
+      "channel_type": "incident",
+      "total_messages": 66,
+      "unique_users": 3,
+      "messages_per_day": 4.7,
+      "task_requests": 8,
+      "completions": 5,
+      "blockers": 20,
+      "reviews": 7,
+      "escalations": 3,
+      "thread_count": 17,
+      "thread_reply_count": 49,
+      "thread_ratio": 2.9,
+      "code_message_ratio": 0.07,
+      "task_completion_ratio": 0.62,
+      "blocker_rate": 0.303,
+      "escalation_rate": 0.045
+    },
+    {
+      "channel_name": "standup",
+      "channel_type": "standup",
+      "total_messages": 178,
+      "unique_users": 7,
+      "messages_per_day": 12.8,
+      "task_requests": 15,
+      "completions": 8,
+      "blockers": 7,
+      "reviews": 21,
+      "escalations": 1,
+      "thread_count": 82,
+      "thread_reply_count": 293,
+      "thread_ratio": 3.6,
+      "code_message_ratio": 0.02,
+      "task_completion_ratio": 0.53,
+      "blocker_rate": 0.039,
+      "escalation_rate": 0.006
+    },
+    {
+      "channel_name": "general",
+      "channel_type": "general",
+      "total_messages": 220,
+      "unique_users": 8,
+      "messages_per_day": 15.7,
+      "task_requests": 10,
+      "completions": 7,
+      "blockers": 8,
+      "reviews": 18,
+      "escalations": 1,
+      "thread_count": 99,
+      "thread_reply_count": 244,
+      "thread_ratio": 2.5,
+      "code_message_ratio": 0.07,
+      "task_completion_ratio": 0.7,
+      "blocker_rate": 0.036,
+      "escalation_rate": 0.005
+    },
+    {
+      "channel_name": "risk-alerts",
+      "channel_type": "incident",
+      "total_messages": 33,
+      "unique_users": 3,
+      "messages_per_day": 2.4,
+      "task_requests": 3,
+      "completions": 2,
+      "blockers": 7,
+      "reviews": 2,
+      "escalations": 0,
+      "thread_count": 14,
+      "thread_reply_count": 37,
+      "thread_ratio": 2.6,
+      "code_message_ratio": 0.07,
+      "task_completion_ratio": 0.67,
+      "blocker_rate": 0.212,
+      "escalation_rate": 0.0
+    }
+  ],
+  "workflow_patterns": {
+    "task_acquisition": "request-driven",
+    "completion_tracking": "announcement-driven",
+    "review_culture": "active-inline",
+    "help_seeking": "distributed",
+    "workload_distribution": "somewhat-uneven",
+    "observations": [
+      "Team primarily uses request-driven task acquisition pattern",
+      "Completions tracked via announcement-driven approach",
+      "Workload distribution is somewhat-uneven",
+      "Highest demand: Reuben Stein (score: 1.17)"
+    ]
+  }
+}
