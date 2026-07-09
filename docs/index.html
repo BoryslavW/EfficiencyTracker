@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Valon AI — Task Analytics Dashboard</title>
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --surface: #12131a;
+    --surface2: #1c1d2b;
+    --border: #2a2b3d;
+    --text: #e8eaf6;
+    --subtext: #8789a3;
+    --blue: #4fc3f7;
+    --green: #66bb6a;
+    --mauve: #a86eff;
+    --peach: #ff8c42;
+    --red: #ff4d6a;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .hero {
+    text-align: center;
+    padding: 80px 24px 40px;
+    max-width: 700px;
+  }
+
+  .hero h1 {
+    font-size: 2.8rem;
+    font-weight: 700;
+    margin-bottom: 16px;
+    background: linear-gradient(135deg, var(--blue), var(--mauve));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .hero p {
+    font-size: 1.15rem;
+    color: var(--subtext);
+    line-height: 1.6;
+    max-width: 540px;
+    margin: 0 auto;
+  }
+
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+    padding: 24px;
+    max-width: 960px;
+    width: 100%;
+  }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 32px 28px;
+    display: flex;
+    flex-direction: column;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+
+  .card:hover {
+    transform: translateY(-4px);
+  }
+
+  .card.manager { border-top: 3px solid var(--blue); }
+  .card.manager:hover { border-color: var(--blue); }
+  .card.engineer { border-top: 3px solid var(--green); }
+  .card.engineer:hover { border-color: var(--green); }
+  .card.demo { border-top: 3px solid var(--mauve); }
+  .card.demo:hover { border-color: var(--mauve); }
+
+  .card .icon {
+    font-size: 2.4rem;
+    margin-bottom: 16px;
+  }
+
+  .card h2 {
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+
+  .card .role {
+    font-size: 0.85rem;
+    color: var(--subtext);
+    margin-bottom: 16px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .card p {
+    color: var(--subtext);
+    font-size: 0.95rem;
+    line-height: 1.5;
+    flex-grow: 1;
+    margin-bottom: 24px;
+  }
+
+  .card ul {
+    list-style: none;
+    margin-bottom: 28px;
+    flex-grow: 1;
+  }
+
+  .card ul li {
+    color: var(--subtext);
+    font-size: 0.9rem;
+    padding: 4px 0;
+    padding-left: 20px;
+    position: relative;
+  }
+
+  .card ul li::before {
+    content: "✓";
+    position: absolute;
+    left: 0;
+    color: var(--green);
+    font-weight: 600;
+  }
+
+  .btn {
+    display: block;
+    width: 100%;
+    padding: 14px 20px;
+    border: none;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #fff;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    transition: opacity 0.2s, transform 0.1s;
+  }
+
+  .btn:hover { opacity: 0.9; }
+  .btn:active { transform: scale(0.98); }
+
+  .btn.manager-btn { background: linear-gradient(135deg, #2196f3, var(--blue)); }
+  .btn.engineer-btn { background: linear-gradient(135deg, #43a047, var(--green)); }
+  .btn.demo-btn { background: linear-gradient(135deg, #7c4dff, var(--mauve)); }
+
+  .instructions {
+    max-width: 960px;
+    width: 100%;
+    padding: 40px 24px;
+  }
+
+  .instructions h3 {
+    font-size: 1.2rem;
+    margin-bottom: 16px;
+    color: var(--text);
+  }
+
+  .steps {
+    display: flex;
+    gap: 32px;
+    flex-wrap: wrap;
+  }
+
+  .step {
+    flex: 1;
+    min-width: 200px;
+    text-align: center;
+  }
+
+  .step .num {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: var(--blue);
+    margin-bottom: 12px;
+  }
+
+  .step h4 {
+    font-size: 1rem;
+    margin-bottom: 6px;
+  }
+
+  .step p {
+    color: var(--subtext);
+    font-size: 0.88rem;
+    line-height: 1.4;
+  }
+
+  .note {
+    max-width: 960px;
+    width: 100%;
+    padding: 0 24px 20px;
+  }
+
+  .note-box {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px 20px;
+    color: var(--subtext);
+    font-size: 0.88rem;
+    line-height: 1.5;
+  }
+
+  .note-box strong {
+    color: var(--peach);
+  }
+
+  footer {
+    padding: 40px 24px;
+    text-align: center;
+    color: var(--subtext);
+    font-size: 0.82rem;
+  }
+
+  footer a {
+    color: var(--blue);
+    text-decoration: none;
+  }
+
+  footer a:hover { text-decoration: underline; }
+
+  @media (max-width: 640px) {
+    .hero h1 { font-size: 2rem; }
+    .hero { padding: 48px 20px 24px; }
+    .cards { grid-template-columns: 1fr; padding: 16px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1>Valon AI</h1>
+  <p>AI-powered team analytics that tracks coding sessions, benchmarks performance, detects blind spots, and generates actionable improvement plans.</p>
+</div>
+
+<div class="instructions">
+  <h3>How it works</h3>
+  <div class="steps">
+    <div class="step">
+      <div class="num">1</div>
+      <h4>Download</h4>
+      <p>Click the button for your role below</p>
+    </div>
+    <div class="step">
+      <div class="num">2</div>
+      <h4>Open</h4>
+      <p>Double-click the downloaded file</p>
+    </div>
+    <div class="step">
+      <div class="num">3</div>
+      <h4>Done</h4>
+      <p>Everything installs automatically</p>
+    </div>
+  </div>
+</div>
+
+<div class="note">
+  <div class="note-box">
+    <strong>First time?</strong> macOS may say the file is from an unidentified developer.
+    Right-click the downloaded file → Open → click "Open" in the dialog. You only need to do this once.
+  </div>
+</div>
+
+<div class="cards">
+
+  <div class="card manager">
+    <div class="icon">📊</div>
+    <div class="role">Team Lead / Manager</div>
+    <h2>Dashboard</h2>
+    <ul>
+      <li>Full analytics dashboard</li>
+      <li>AI-powered code insights</li>
+      <li>Team health monitoring</li>
+      <li>Velocity forecasting</li>
+      <li>Desktop shortcut created</li>
+    </ul>
+    <a href="downloads/Valon-AI-Manager-Install.command" download class="btn manager-btn">
+      Download Manager Install
+    </a>
+  </div>
+
+  <div class="card engineer">
+    <div class="icon">💻</div>
+    <div class="role">Engineer / Developer</div>
+    <h2>Collector</h2>
+    <ul>
+      <li>Runs invisibly in background</li>
+      <li>Auto-discovers team Hub</li>
+      <li>Scrubs secrets from all data</li>
+      <li>Starts on login automatically</li>
+      <li>Zero maintenance</li>
+    </ul>
+    <a href="downloads/Valon-AI-Engineer-Install.command" download class="btn engineer-btn">
+      Download Engineer Install
+    </a>
+  </div>
+
+  <div class="card demo">
+    <div class="icon">🎯</div>
+    <div class="role">Demo / Evaluation</div>
+    <h2>Try it out</h2>
+    <ul>
+      <li>3 pre-built company datasets</li>
+      <li>2,000 task records each</li>
+      <li>Switch presets instantly</li>
+      <li>Full dashboard experience</li>
+      <li>No collectors needed</li>
+    </ul>
+    <a href="downloads/Valon-AI-Demo-Install.command" download class="btn demo-btn">
+      Download Demo Install
+    </a>
+  </div>
+
+</div>
+
+<footer>
+  <p>macOS only &middot; Requires Python 3.9+ &middot; <a href="https://github.com/BoryslavW/EfficiencyTracker">View on GitHub</a></p>
+</footer>
+
+</body>
+</html>
