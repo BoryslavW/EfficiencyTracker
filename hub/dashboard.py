@@ -4,7 +4,7 @@ NiceGUI Dashboard — unified view of team analytics, effort tracking,
 blind spot remediation, and project predictions.
 
 Tabs:
-  1. Overview   — heatmap, key metrics, model distribution
+  1. Overview   — team ranking (strengths / availability), key metrics, model distribution
   2. Efforts    — epic-level effort tracking, cost/time estimation
   3. Team Health — blind spots, education plan (live Ollama), curated links
   4. Predictions — estimate new efforts, predict in-progress completion, team pairing
@@ -43,21 +43,25 @@ SLACK_FILE = os.path.join(DATA_DIR, "slack_signals.json")
 
 # ─── Theme ────────────────────────────────────────────────────────────────
 
-DARK_BG = "#0a0a0f"
-SURFACE = "#12131a"
-SURFACE2 = "#1c1d2b"
-BORDER = "#2a2b3d"
-TEXT = "#e8eaf6"
-SUBTEXT = "#8789a3"
-BLUE = "#4f8cff"
-GREEN = "#00d68f"
-RED = "#ff4d6a"
-PEACH = "#ff8c42"
-YELLOW = "#ffd23f"
-MAUVE = "#a86eff"
-PINK = "#ff6eb4"
-CYAN = "#00e5ff"
-SIDEBAR_BG = "#0e0f16"
+# Light professional palette: white surfaces, one navy accent,
+# muted green/red reserved for good/bad semantics only.
+# (Variable names kept from the dark theme so every usage flips automatically:
+#  DARK_BG is now the page background, TEXT is dark ink.)
+DARK_BG = "#f4f5f7"
+SURFACE = "#ffffff"
+SURFACE2 = "#eceef2"
+BORDER = "#d7dae1"
+TEXT = "#191c24"
+SUBTEXT = "#5d6370"
+BLUE = "#31518a"      # navy accent
+GREEN = "#25704f"     # muted green — positive
+RED = "#a83a4e"       # muted red — negative
+PEACH = "#7d6a52"     # warm gray-brown — mild warning
+YELLOW = "#7c7147"    # muted olive
+MAUVE = "#4d5578"     # slate — headings
+PINK = "#7d5468"      # muted plum
+CYAN = "#2e6a84"      # muted teal — nav accent
+SIDEBAR_BG = "#ffffff"
 SIDEBAR_W = "52px"
 SIDEBAR_W_EXPANDED = "200px"
 
@@ -71,6 +75,16 @@ body, .q-page, .nicegui-content {{
     background: {DARK_BG} !important;
     color: {TEXT} !important;
     overflow-x: hidden;
+}}
+body, body * {{
+    font-family: "Helvetica Neue", Helvetica, "Segoe UI", Arial, sans-serif !important;
+}}
+pre, code, .monospace {{
+    font-family: "SF Mono", Menlo, Consolas, monospace !important;
+}}
+/* Sharp, squared edges everywhere */
+#main-content div, #main-content span, .q-card, .q-btn, .q-field__control {{
+    border-radius: 0 !important;
 }}
 /* ── Sidebar ── */
 #sidebar {{
@@ -135,7 +149,7 @@ body, .q-page, .nicegui-content {{
     flex-shrink: 0;
 }}
 .nav-item .nav-label {{
-    font-size: 13px;
+    font-size: 15px;
     color: {SUBTEXT};
     font-weight: 500;
     opacity: 0;
@@ -149,37 +163,42 @@ body, .q-page, .nicegui-content {{
     margin-left: {SIDEBAR_W};
     min-height: 100vh;
     transition: margin-left 0.2s ease;
+    zoom: 1.5;                /* across-the-board larger text / fill screen */
 }}
-.page-section {{ display: none; padding: 28px 32px; }}
+.page-section {{ display: none; padding: 36px 48px; max-width: 1450px; margin: 0 auto; }}
 .page-section.active {{ display: block; }}
 /* ── Components ── */
 .q-card {{
     background: {SURFACE} !important;
     border: 1px solid {BORDER} !important;
-    border-radius: 10px !important;
+    border-radius: 0 !important;
     color: {TEXT} !important;
+    box-shadow: none !important;
+    padding: 8px !important;
 }}
 .section-title {{
-    color: {MAUVE};
-    font-size: 16px;
+    color: {TEXT};
+    font-size: 23px;
     font-weight: 700;
-    margin-bottom: 8px;
+    letter-spacing: -0.02em;
+    margin-bottom: 10px;
 }}
 .stat-value {{
-    font-size: 28px;
+    font-size: 40px;
     font-weight: 700;
-    line-height: 1.2;
+    letter-spacing: -0.03em;
+    line-height: 1.15;
 }}
 .stat-label {{
-    font-size: 12px;
+    font-size: 14px;
     color: {SUBTEXT};
-    margin-top: 2px;
+    margin-top: 3px;
 }}
 .status-chip {{
     display: inline-block;
     padding: 2px 10px;
-    border-radius: 12px;
-    font-size: 12px;
+    border-radius: 0;
+    font-size: 13px;
     font-weight: 600;
 }}
 .status-done {{ background: {MAUVE}20; color: {MAUVE}; }}
@@ -190,7 +209,7 @@ body, .q-page, .nicegui-content {{
     color: {RED};
     padding: 2px 8px;
     border-radius: 4px;
-    font-size: 11px;
+    font-size: 13px;
     font-weight: 600;
 }}
 .q-field__native, .q-field__input {{
@@ -205,8 +224,8 @@ body, .q-page, .nicegui-content {{
 }}
 .advisor-output {{
     background: transparent;
-    font-size: 13px;
-    line-height: 1.6;
+    font-size: 15px;
+    line-height: 1.65;
     max-height: 700px;
     overflow-y: auto;
 }}
@@ -229,7 +248,7 @@ body, .q-page, .nicegui-content {{
     display: inline-block;
     background: {MAUVE}30;
     color: {MAUVE};
-    font-size: 10px;
+    font-size: 12px;
     font-weight: 700;
     padding: 2px 8px;
     border-radius: 10px;
@@ -276,7 +295,7 @@ body, .q-page, .nicegui-content {{
     display: flex;
     align-items: center;
     gap: 8px;
-    font-size: 11px;
+    font-size: 13px;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.8px;
@@ -411,6 +430,87 @@ def compute_metrics(records: list[dict]) -> dict:
         "topic_count": len(topics),
         "model_counts": dict(model_counts),
     }
+
+
+def compute_team_ranking(records: list[dict]) -> list[dict]:
+    """Rank employees by performance vs team benchmarks.
+
+    For each employee/topic pair (min 3 tasks), compare avg errors, duration
+    and tokens against the team's topic average. A ratio < 1 means better
+    than the team. Strengths are the topics with the best ratios, weaknesses
+    the worst. Ticket count doubles as an availability signal.
+
+    Relies on r["_topic"] set by compute_metrics().
+    """
+    team_topic: dict[str, dict] = defaultdict(lambda: {"err": [], "dur": [], "tok": []})
+    per_emp: dict[str, dict] = defaultdict(lambda: defaultdict(lambda: {"err": [], "dur": [], "tok": []}))
+
+    for r in records:
+        topic = r.get("_topic", "Unknown")
+        if topic == "Unknown":
+            continue
+        err = r.get("error_count", 0)
+        dur = r.get("duration_minutes", 0)
+        tok = r.get("normalized_tokens") or r.get("token_usage", 0)
+        team_topic[topic]["err"].append(err)
+        team_topic[topic]["dur"].append(dur)
+        team_topic[topic]["tok"].append(tok)
+        per_emp[r["employee"]][topic]["err"].append(err)
+        per_emp[r["employee"]][topic]["dur"].append(dur)
+        per_emp[r["employee"]][topic]["tok"].append(tok)
+
+    def _avg(lst):
+        return sum(lst) / len(lst) if lst else 0
+
+    bench = {t: {k: _avg(v[k]) for k in ("err", "dur", "tok")}
+             for t, v in team_topic.items()}
+
+    def _ratio(emp_avg, team_avg):
+        if team_avg <= 0:
+            return 1.0
+        return emp_avg / team_avg
+
+    ranking = []
+    for emp, topics in per_emp.items():
+        topic_scores = []       # (topic, combined_ratio, task_count)
+        tickets = 0
+        for topic, vals in topics.items():
+            n = len(vals["err"])
+            tickets += n
+            b = bench[topic]
+            combined = (0.45 * _ratio(_avg(vals["err"]), b["err"])
+                        + 0.30 * _ratio(_avg(vals["dur"]), b["dur"])
+                        + 0.25 * _ratio(_avg(vals["tok"]), b["tok"]))
+            topic_scores.append((topic, combined, n))
+
+        if not topic_scores:
+            continue
+
+        total_n = sum(n for _, _, n in topic_scores)
+        mean_ratio = sum(s * n for _, s, n in topic_scores) / total_n
+        vs_team_pct = (1 - mean_ratio) * 100        # positive = better than team
+
+        # Strengths/weaknesses need at least 2 tasks in a topic to count.
+        qualified = [(t, s) for t, s, n in sorted(topic_scores, key=lambda x: x[1])
+                     if n >= 2]
+        strengths = [(t, (1 - s) * 100) for t, s in qualified if s <= 0.92][:4]
+        weaknesses = [(t, (s - 1) * 100) for t, s in reversed(qualified) if s >= 1.08][:3]
+
+        ranking.append({
+            "employee": emp,
+            "vs_team_pct": vs_team_pct,
+            "strengths": strengths,
+            "weaknesses": weaknesses,
+            "tickets": tickets,
+        })
+
+    ranking.sort(key=lambda x: -x["vs_team_pct"])
+    avg_tickets = _avg([r["tickets"] for r in ranking])
+    for r in ranking:
+        r["load"] = ("light" if r["tickets"] < avg_tickets * 0.85
+                     else "heavy" if r["tickets"] > avg_tickets * 1.15
+                     else "normal")
+    return ranking
 
 
 def compute_epic_data(records: list[dict], epics: list[dict]) -> list[dict]:
@@ -959,15 +1059,18 @@ def build_dashboard():
                 _metric_card("Avg Errors/Task", f"{metrics['avg_errors_per_task']:.1f}", RED)
                 _metric_card("Blind Spots", str(len(blind_spots)), RED if blind_spots else GREEN)
 
-            # Heatmap
+            # Team ranking
             with ui.card().classes("w-full mb-6 p-4"):
-                ui.label("Employee × Topic Deviation Heatmap").classes("section-title")
-                heatmap_path = os.path.join(OUTPUT_DIR, "heatmap_employee_topic.png")
-                if os.path.exists(heatmap_path):
-                    ui.image(heatmap_path).classes("w-full")
-                else:
-                    ui.label("Run analytics.py first to generate the heatmap.").style(
-                        f"color:{SUBTEXT}")
+                ui.label("Team Ranking").classes("section-title")
+                ui.label(
+                    "Ranked by overall performance vs team benchmarks. "
+                    "Ticket count reflects current availability."
+                ).style(f"color:{SUBTEXT}; font-size:14px; margin-bottom:14px")
+                with ui.element("div").style(
+                        "display:grid; grid-template-columns:repeat(3, minmax(0, 1fr)); "
+                        "gap:14px; width:100%"):
+                    for i, rk in enumerate(compute_team_ranking(records), 1):
+                        _render_ranking_row(i, rk)
 
             # Model distribution
             with ui.card().classes("w-full p-4"):
@@ -983,9 +1086,9 @@ def build_dashboard():
                             ui.label(f"{count}").style(
                                 f"font-size:20px; font-weight:700; color:{BLUE}")
                             ui.label(model).style(
-                                f"font-size:11px; color:{SUBTEXT}; text-align:center")
+                                f"font-size:13px; color:{SUBTEXT}; text-align:center")
                             ui.label(f"{pct:.0f}%").style(
-                                f"font-size:11px; color:{SUBTEXT}")
+                                f"font-size:13px; color:{SUBTEXT}")
 
         # ════════════════════════════════════════════════
         # SECTION 2: EFFORTS
@@ -1082,130 +1185,25 @@ def build_dashboard():
 
             plan_output  # render it
 
-            ui.separator().style(f"background:{BORDER}; margin:24px 0")
-
-            # Curated resources
-            ui.label("Curated Resources").classes("section-title mb-2")
-            for topic in sorted(curated.keys()):
-                sources = curated[topic]
-                with ui.expansion(topic).classes("w-full mb-1").style(
-                        f"color:{TEXT}; background:{SURFACE}; border:1px solid {BORDER}; border-radius:6px"):
-                    for category, items in sources.items():
-                        ui.label(category.title()).style(
-                            f"color:{PEACH}; font-size:12px; font-weight:600; margin-top:8px")
-                        for item in items:
-                            ui.html(sanitize=False, content=
-                                f'<div style="padding:2px 0 2px 12px; font-size:12px">'
-                                f'{_resource_link(item)}</div>')
-
         # ════════════════════════════════════════════════
         # SECTION 4: PREDICTIONS
         # ════════════════════════════════════════════════
         with ui.element("div").props('id="section-predictions"').classes("page-section"):
-            ui.label("Effort Predictions").classes("section-title mb-2")
+            ui.label("Completion Forecasts").classes("section-title mb-2")
             ui.label(
-                "Estimates based on 60-day rolling historical averages. "
-                "Range shows slightly optimistic to slightly pessimistic."
-            ).style(f"color:{SUBTEXT}; font-size:13px; margin-bottom:20px")
+                "Estimated completion for in-progress efforts, adjusted for "
+                "temporal shifts in the codebase."
+            ).style(f"color:{SUBTEXT}; font-size:14px; margin-bottom:20px")
 
-            # In-progress efforts
             from code_insight import load_insights
             insight_data = load_insights()
             in_progress = [e for e in epic_data if e["status"] == "in_progress"]
             velocity_adj = _compute_velocity_adjustments(records, in_progress, insight_data)
 
-            if in_progress:
-                ui.label("In-Progress Efforts — Completion Estimates").style(
-                    f"color:{PEACH}; font-size:14px; font-weight:600; margin-bottom:12px")
-                for epic in in_progress:
-                    _render_prediction_card(epic)
-                    if epic["key"] in velocity_adj:
-                        _render_velocity_card(epic["key"], velocity_adj[epic["key"]])
-
-                ui.separator().style(f"background:{BORDER}; margin:24px 0")
-
-            # Custom effort estimator
-            ui.label("Estimate a New Effort").style(
-                f"color:{PEACH}; font-size:14px; font-weight:600; margin-bottom:12px")
-            ui.label(
-                "Define a proposed effort to get time, cost, and team pairing recommendations."
-            ).style(f"color:{SUBTEXT}; font-size:13px; margin-bottom:12px")
-
-            topics_list = list(get_active_preset()["topics"].keys())
-            employees_list = get_active_preset()["employees"]
-            employee_models = get_active_preset().get("employee_models", {})
-
-            est_name = ui.input("Effort Name", value="New Feature Build").style("width:400px")
-            est_topics = ui.select(
-                topics_list, multiple=True, label="Topics Involved",
-                value=topics_list[:2]
-            ).classes("w-full").style("max-width:600px")
-            est_tickets = ui.number("Estimated Ticket Count", value=20, min=1, max=200)
-            est_team = ui.select(
-                employees_list, multiple=True, label="Assigned Team Members",
-                value=employees_list[:4]
-            ).classes("w-full").style("max-width:600px")
-
-            estimate_output = ui.column().classes("w-full mt-4")
-
-            def run_estimate():
-                estimate_output.clear()
-                selected_topics = est_topics.value or []
-                ticket_count = int(est_tickets.value or 20)
-                team = est_team.value or []
-
-                if not selected_topics:
-                    with estimate_output:
-                        ui.label("Select at least one topic.").style(f"color:{RED}")
-                    return
-
-                fake_epic = {
-                    "key": "EST-NEW",
-                    "name": est_name.value or "Custom Estimate",
-                    "project": "Custom",
-                    "topics": selected_topics,
-                    "ticket_count": ticket_count,
-                    "status": "planning",
-                    "target_date": (datetime.now() + timedelta(days=90)).strftime("%Y-%m-%d"),
-                }
-                result = compute_epic_data(records, [fake_epic])
-                if not result:
-                    return
-                est = result[0]
-
-                with estimate_output:
-                    _render_prediction_card(est)
-
-                    # Team pairing insight
-                    ui.separator().style(f"background:{BORDER}; margin:16px 0")
-                    ui.label("Team Pairing Insight").style(
-                        f"color:{MAUVE}; font-size:14px; font-weight:600; margin-bottom:8px")
-
-                    spots_set = {bs["topic"] for bs in (blind_spots or [])}
-                    for member in team:
-                        model_id = employee_models.get(member, "unknown")
-                        model_name = MODEL_BASELINES.get(model_id, {}).get("display_name", model_id)
-                        quality = MODEL_BASELINES.get(model_id, {}).get("quality_factor", 0.8)
-
-                        risk_topics = [t for t in selected_topics if t in spots_set]
-                        if risk_topics:
-                            risk_text = f'<span style="color:{RED}">Risk: team blind spot in {", ".join(risk_topics)}</span>'
-                        else:
-                            risk_text = f'<span style="color:{MAUVE}">No blind spot overlap</span>'
-
-                        quality_color = MAUVE if quality >= 0.85 else (PEACH if quality >= 0.75 else RED)
-                        with ui.card().classes("w-full mb-2 p-3"):
-                            with ui.row().classes("items-center justify-between w-full"):
-                                with ui.column():
-                                    ui.label(member).style(f"font-weight:600; color:{TEXT}")
-                                    ui.label(f"Model: {model_name}").style(f"font-size:11px; color:{SUBTEXT}")
-                                with ui.column().classes("items-end"):
-                                    ui.label(f"Quality: {quality:.0%}").style(
-                                        f"font-size:12px; color:{quality_color}; font-weight:600")
-                                    ui.html(sanitize=False, content=risk_text).style("font-size:11px")
-
-            ui.button("Estimate Effort", on_click=run_estimate).style(
-                f"background:{PEACH}; color:{DARK_BG}; font-weight:600; margin-top:8px")
+            if not in_progress:
+                ui.label("No in-progress efforts.").style(f"color:{SUBTEXT}")
+            for epic in in_progress:
+                _render_timing_card(epic, velocity_adj.get(epic["key"]))
 
         # ════════════════════════════════════════════════
         # SECTION 5: SLACK INSIGHTS
@@ -1302,7 +1300,7 @@ def _format_fix_prompts(raw_text: str) -> str:
                  display:flex; align-items:center; justify-content:center">{prompt_idx}</span>
     <div style="flex:1 1 auto">
       <div style="display:flex; align-items:center; gap:8px; margin-bottom:4px">
-        <span style="font-size:10px; font-weight:700; color:{DARK_BG}; background:{sev_color};
+        <span style="font-size:12px; font-weight:700; color:{DARK_BG}; background:{sev_color};
                      padding:2px 8px; border-radius:4px; text-transform:uppercase;
                      letter-spacing:0.5px">{sev_label}</span>
       </div>
@@ -1324,7 +1322,7 @@ def _format_fix_prompts(raw_text: str) -> str:
            }}, 1500);
          }});
        ">
-    <span class="copy-badge" style="position:absolute; top:8px; right:10px; font-size:10px;
+    <span class="copy-badge" style="position:absolute; top:8px; right:10px; font-size:12px;
                 color:{SUBTEXT}; background:{SURFACE2}; padding:2px 8px;
                 border-radius:3px; pointer-events:none">Click to copy</span>
     <pre style="color:{GREEN}; white-space:pre-wrap; font-size:12px; line-height:1.6;
@@ -1411,7 +1409,7 @@ def _render_code_insights_section(records: list[dict]):
             for i, cell in enumerate(row):
                 style = f"padding:6px 10px; border-bottom:1px solid {BORDER}; color:{TEXT}"
                 if i == 0:
-                    style += "; font-weight:600; font-family:monospace; font-size:11px"
+                    style += "; font-weight:600; font-family:monospace; font-size:13px"
                 table_html += f'<td style="{style}">{cell}</td>'
             table_html += '</tr>'
         table_html += '</tbody></table>'
@@ -1431,11 +1429,11 @@ def _render_code_insights_section(records: list[dict]):
                 with ui.card().classes("p-3").style(f"min-width:220px; flex:1; max-width:320px"):
                     with ui.row().classes("items-center gap-2 mb-1"):
                         ui.label(p["keywords"][0]).style(
-                            f"font-family:monospace; font-size:11px; color:{TEXT}; "
+                            f"font-family:monospace; font-size:13px; color:{TEXT}; "
                             f"background:{SURFACE2}; padding:2px 6px; border-radius:3px")
-                        ui.label("+").style(f"color:{SUBTEXT}; font-size:11px")
+                        ui.label("+").style(f"color:{SUBTEXT}; font-size:13px")
                         ui.label(p["keywords"][1]).style(
-                            f"font-family:monospace; font-size:11px; color:{TEXT}; "
+                            f"font-family:monospace; font-size:13px; color:{TEXT}; "
                             f"background:{SURFACE2}; padding:2px 6px; border-radius:3px")
                     with ui.element("div").style("display:flex; gap:12px"):
                         _slack_mini_stat("errors", f"{p['avg_errors']:.1f}", pair_color)
@@ -1465,12 +1463,12 @@ def _render_code_insights_section(records: list[dict]):
                         if is_confirmed:
                             ui.html(sanitize=False, content=
                                 f'<span style="background:{RED}20; color:{RED}; '
-                                f'padding:1px 8px; border-radius:10px; font-size:10px; '
+                                f'padding:1px 8px; border-radius:10px; font-size:12px; '
                                 f'font-weight:600">CODEBASE PROBLEM</span>')
                         else:
                             ui.html(sanitize=False, content=
                                 f'<span style="background:{PEACH}20; color:{PEACH}; '
-                                f'padding:1px 8px; border-radius:10px; font-size:10px; '
+                                f'padding:1px 8px; border-radius:10px; font-size:12px; '
                                 f'font-weight:600">LIKELY CODEBASE</span>')
                     ui.label(
                         f"{c['struggling_employees']}/{c['total_employees']} employees  "
@@ -1501,12 +1499,12 @@ def _render_code_insights_section(records: list[dict]):
                         with ui.element("div").style("margin-bottom:6px"):
                             with ui.row().classes("items-center justify-between w-full"):
                                 ui.label(d["keyword"]).style(
-                                    f"font-family:monospace; font-size:11px; color:{TEXT}")
+                                    f"font-family:monospace; font-size:13px; color:{TEXT}")
                                 ui.label(f"+{d['drift_pct']:.0f}%").style(
                                     f"color:{RED}; font-size:12px; font-weight:700")
                             ui.label(
                                 f"{d['early_avg_errors']:.1f} → {d['late_avg_errors']:.1f} errors/task"
-                            ).style(f"color:{SUBTEXT}; font-size:10px")
+                            ).style(f"color:{SUBTEXT}; font-size:12px")
 
             if improving:
                 with ui.element("div").style("flex:1; min-width:280px"):
@@ -1516,12 +1514,12 @@ def _render_code_insights_section(records: list[dict]):
                         with ui.element("div").style("margin-bottom:6px"):
                             with ui.row().classes("items-center justify-between w-full"):
                                 ui.label(d["keyword"]).style(
-                                    f"font-family:monospace; font-size:11px; color:{TEXT}")
+                                    f"font-family:monospace; font-size:13px; color:{TEXT}")
                                 ui.label(f"{d['drift_pct']:.0f}%").style(
                                     f"color:{MAUVE}; font-size:12px; font-weight:700")
                             ui.label(
                                 f"{d['early_avg_errors']:.1f} → {d['late_avg_errors']:.1f} errors/task"
-                            ).style(f"color:{SUBTEXT}; font-size:10px")
+                            ).style(f"color:{SUBTEXT}; font-size:12px")
 
     # ── Project Risk ──
     ui.separator().style(f"background:{BORDER}; margin:20px 0")
@@ -1545,7 +1543,7 @@ def _render_code_insights_section(records: list[dict]):
                         ui.label(
                             f"{kw_info['keyword']} ({kw_info['high_error_tasks']})"
                         ).style(
-                            f"font-family:monospace; font-size:10px; color:{RED}; "
+                            f"font-family:monospace; font-size:12px; color:{RED}; "
                             f"background:{RED}15; padding:2px 6px; border-radius:3px")
 
     # ── LLM Analysis Button ──
@@ -1742,7 +1740,7 @@ def _render_slack_section(slack_data: dict, records: list[dict], tickets: dict |
                     ui.label(f"#{ch['channel_name']}").style(
                         f"font-weight:600; color:{TEXT}; font-size:13px")
                     ui.label(ch["channel_type"]).style(
-                        f"font-size:10px; color:{ch_color}; background:{SURFACE2}; "
+                        f"font-size:12px; color:{ch_color}; background:{SURFACE2}; "
                         f"padding:2px 6px; border-radius:4px")
                 with ui.element("div").style("display:flex; gap:12px; flex-wrap:wrap"):
                     _slack_mini_stat("msgs/day", f"{ch['messages_per_day']:.0f}", TEXT)
@@ -1784,11 +1782,11 @@ def _render_slack_section(slack_data: dict, records: list[dict], tickets: dict |
                         ui.label(str(count)).style(
                             f"font-size:16px; font-weight:700; color:{sc}")
                         ui.label(status.replace("_", " ").title()).style(
-                            f"font-size:10px; color:{SUBTEXT}")
+                            f"font-size:12px; color:{SUBTEXT}")
 
     # ── Metadata ──
     if meta:
-        with ui.element("div").style(f"color:{SUBTEXT}; font-size:11px; margin-top:12px"):
+        with ui.element("div").style(f"color:{SUBTEXT}; font-size:13px; margin-top:12px"):
             parts = []
             if meta.get("days_scanned"):
                 parts.append(f"Last {meta['days_scanned']} days")
@@ -1809,7 +1807,7 @@ def _slack_pattern_chip(label: str, value: str):
     with ui.element("div").style(
             f"background:{SURFACE}; border:1px solid {BORDER}; border-radius:8px; "
             f"padding:8px 14px"):
-        ui.label(label).style(f"color:{SUBTEXT}; font-size:10px; text-transform:uppercase")
+        ui.label(label).style(f"color:{SUBTEXT}; font-size:12px; text-transform:uppercase")
         ui.label(value).style(f"color:{color}; font-size:13px; font-weight:600")
 
 
@@ -1818,18 +1816,18 @@ def _slack_employee_bar(name: str, score: float, max_score: float, color: str, d
     with ui.element("div").style("margin-bottom:6px"):
         with ui.row().classes("items-center justify-between w-full"):
             ui.label(name).style(f"color:{TEXT}; font-size:12px; font-weight:600; min-width:120px")
-            ui.label(f"{score:.2f}").style(f"color:{color}; font-size:11px; font-weight:600")
+            ui.label(f"{score:.2f}").style(f"color:{color}; font-size:13px; font-weight:600")
         with ui.element("div").style(
                 f"height:6px; background:{SURFACE2}; border-radius:3px; margin-top:2px"):
             ui.element("div").style(
                 f"height:100%; width:{pct:.0f}%; background:{color}; border-radius:3px")
-        ui.label(detail).style(f"color:{SUBTEXT}; font-size:10px")
+        ui.label(detail).style(f"color:{SUBTEXT}; font-size:12px")
 
 
 def _slack_mini_stat(label: str, value: str, color: str):
     with ui.element("div"):
         ui.label(value).style(f"color:{color}; font-size:13px; font-weight:600")
-        ui.label(label).style(f"color:{SUBTEXT}; font-size:10px")
+        ui.label(label).style(f"color:{SUBTEXT}; font-size:12px")
 
 
 # ─── Component Helpers ────────────────────────────────────────────────────
@@ -1845,7 +1843,67 @@ def _metric_card(label: str, value: str, color: str):
 def _mini_stat(label: str, value: str, color: str):
     with ui.column():
         ui.label(value).style(f"color:{color}; font-size:16px; font-weight:700")
-        ui.label(label).style(f"color:{SUBTEXT}; font-size:11px")
+        ui.label(label).style(f"color:{SUBTEXT}; font-size:13px")
+
+
+def _render_ranking_row(rank: int, rk: dict):
+    """One grid cell in the 3-column team ranking."""
+    import html as _html
+    name = _html.escape(rk["employee"])
+    pct = rk["vs_team_pct"]
+    pct_color = GREEN if pct >= 0 else RED
+    pct_text = f"+{pct:.0f}%" if pct >= 0 else f"{pct:.0f}%"
+
+    load_labels = {"light": ("Available", GREEN),
+                   "normal": ("Balanced", SUBTEXT),
+                   "heavy": ("Loaded", RED)}
+    load_text, load_color = load_labels[rk["load"]]
+
+    # Strength chips get a thin green outline; the worst niche gets red.
+    chips = [
+        f'<span style="background:{SURFACE2}; color:{TEXT}; padding:4px 10px; '
+        f'border:1px solid {GREEN}; font-size:13px; font-weight:600; '
+        f'white-space:nowrap">{_html.escape(t)}</span>'
+        for t, _ in rk["strengths"][:2]
+    ]
+    if rk["weaknesses"]:
+        worst = rk["weaknesses"][0][0]
+        chips.append(
+            f'<span style="background:{SURFACE2}; color:{TEXT}; padding:4px 10px; '
+            f'border:1px solid {RED}; font-size:13px; font-weight:600; '
+            f'white-space:nowrap">{_html.escape(worst)}</span>')
+    chips_html = "".join(chips) or \
+        f'<span style="color:{SUBTEXT}; font-size:13px">No standout topics yet</span>'
+
+    eyebrow = (f'color:{SUBTEXT}; font-size:12px; font-weight:600; '
+               f'text-transform:uppercase; letter-spacing:0.08em')
+
+    ui.html(sanitize=False, content=f'''
+<div style="display:flex; flex-direction:column; padding:16px 18px;
+            border:1px solid {BORDER}; background:{SURFACE}; min-width:0">
+  <div style="display:flex; align-items:baseline; gap:10px; min-width:0">
+    <span style="font-size:22px; font-weight:800;
+                 color:{BLUE if rank <= 3 else SUBTEXT}">{rank}</span>
+    <span style="font-size:17px; font-weight:700; color:{TEXT}; overflow:hidden;
+                 text-overflow:ellipsis; white-space:nowrap">{name}</span>
+  </div>
+  <div style="margin-top:10px">
+    <div style="{eyebrow}">General Efficiency vs Team</div>
+    <div style="font-size:20px; font-weight:700; color:{pct_color}; margin-top:2px">{pct_text}</div>
+  </div>
+  <div style="display:flex; flex-wrap:wrap; gap:6px; margin-top:12px">{chips_html}</div>
+  <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:auto;
+              padding-top:12px; margin-top:14px; border-top:1px solid {BORDER}">
+    <div>
+      <div style="{eyebrow}">Tickets</div>
+      <div style="font-size:16px; font-weight:700; color:{TEXT}; margin-top:2px">{rk["tickets"]}</div>
+    </div>
+    <div>
+      <div style="{eyebrow}">Availability</div>
+      <div style="font-size:16px; font-weight:700; color:{load_color}; margin-top:2px">{load_text}</div>
+    </div>
+  </div>
+</div>''')
 
 
 def _render_epic_card(epic: dict, blind_spots: list[dict] | None = None,
@@ -1895,7 +1953,7 @@ def _render_epic_card(epic: dict, blind_spots: list[dict] | None = None,
                 suffix = " ⚠" if is_spot else ""
                 ui.label(f"{topic}{suffix}").style(
                     f"background:{bg}; color:{tc}; padding:2px 8px; "
-                    f"border-radius:4px; font-size:11px")
+                    f"border-radius:4px; font-size:13px")
 
         if show_team_btn and records:
             team_output = ui.column().classes("w-full")
@@ -1913,7 +1971,7 @@ def _render_epic_card(epic: dict, blind_spots: list[dict] | None = None,
                         f"color:{MAUVE}; font-size:13px; font-weight:700; margin-bottom:8px")
                     ui.label(
                         "Ranked by topic expertise, error rate, speed, model quality, and current workload."
-                    ).style(f"color:{SUBTEXT}; font-size:11px; margin-bottom:10px")
+                    ).style(f"color:{SUBTEXT}; font-size:13px; margin-bottom:10px")
 
                     show_list = [(r, "rec") for r in top4]
                     if growth_pick:
@@ -1925,11 +1983,11 @@ def _render_epic_card(epic: dict, blind_spots: list[dict] | None = None,
                         border_c = MAUVE if is_rec else (PEACH if is_growth else BORDER)
                         if is_rec:
                             badge = (f'<span style="background:{MAUVE}20; color:{MAUVE}; '
-                                     f'padding:1px 8px; border-radius:10px; font-size:10px; '
+                                     f'padding:1px 8px; border-radius:10px; font-size:12px; '
                                      f'font-weight:700">RECOMMENDED</span>')
                         elif is_growth:
                             badge = (f'<span style="background:{PEACH}20; color:{PEACH}; '
-                                     f'padding:1px 8px; border-radius:10px; font-size:10px; '
+                                     f'padding:1px 8px; border-radius:10px; font-size:12px; '
                                      f'font-weight:700">GROWTH OPPORTUNITY</span>')
                         else:
                             badge = ""
@@ -1940,7 +1998,7 @@ def _render_epic_card(epic: dict, blind_spots: list[dict] | None = None,
                             c = MAUVE if sc >= 7 else (PEACH if sc >= 4 else RED)
                             topic_chips += (
                                 f'<span style="background:{c}15; color:{c}; '
-                                f'padding:1px 6px; border-radius:3px; font-size:10px; '
+                                f'padding:1px 6px; border-radius:3px; font-size:12px; '
                                 f'margin-right:4px">{ts["topic"][:20]}: {sc}</span>'
                             )
 
@@ -1961,16 +2019,16 @@ def _render_epic_card(epic: dict, blind_spots: list[dict] | None = None,
                             f'<div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap">'
                             f'<span style="color:{TEXT}; font-weight:600; font-size:13px">{r["employee"]}</span>'
                             f'{badge}</div>'
-                            f'<div style="color:{SUBTEXT}; font-size:11px; margin-top:2px">'
+                            f'<div style="color:{SUBTEXT}; font-size:13px; margin-top:2px">'
                             f'{r["model"]} · {r["total_experience"]} tasks in these topics</div>'
                             f'<div style="margin-top:4px">{topic_chips}</div>'
                             f'</div></div>'
                             f'<div style="text-align:right; flex-shrink:0; margin-left:12px">'
                             f'<div style="font-size:18px; font-weight:700; color:{MAUVE if is_rec else PEACH}">{r["score"]}</div>'
-                            f'<div style="font-size:9px; color:{SUBTEXT}; text-transform:uppercase">Score</div>'
-                            f'<div style="font-size:11px; color:{avail_c}; margin-top:4px">'
+                            f'<div style="font-size:12px; color:{SUBTEXT}; text-transform:uppercase">Score</div>'
+                            f'<div style="font-size:13px; color:{avail_c}; margin-top:4px">'
                             f'{r["availability"]} ({r["open_tickets"]} tickets)</div>'
-                            f'<div style="font-size:10px; color:{quality_c}">Quality: {r["quality"]:.0%}</div>'
+                            f'<div style="font-size:12px; color:{quality_c}">Quality: {r["quality"]:.0%}</div>'
                             f'</div></div>'
                         )
 
@@ -2037,105 +2095,70 @@ def _compute_velocity_adjustments(records, epic_data, insight_data):
     return results
 
 
-def _render_velocity_card(epic_key, vel):
-    """Render a velocity forecast card for an in-progress epic."""
-    m = vel["multiplier"]
-    if m < 1.0:
-        arrow = "▼"
-        arrow_color = GREEN
-        label = "Velocity improving"
-    elif m > 1.0:
-        arrow = "▲"
-        arrow_color = RED
-        label = "Velocity slowing"
-    else:
-        arrow = "●"
-        arrow_color = SUBTEXT
-        label = "Velocity neutral"
-
-    trend_lines = []
-    for w in vel["worsening_keywords"]:
-        trend_lines.append(
-            f'<div style="color:{RED}; font-size:11px">↑ {w["keyword"]} errors up {abs(w["drift_pct"]):.0f}%</div>')
-    for i in vel["improving_keywords"]:
-        trend_lines.append(
-            f'<div style="color:{GREEN}; font-size:11px">↓ {i["keyword"]} errors down {abs(i["drift_pct"]):.0f}%</div>')
-    trends_html = "".join(trend_lines) if trend_lines else f'<div style="color:{SUBTEXT}; font-size:11px">No significant keyword trends</div>'
-
-    with ui.card().classes("w-full mb-4 p-4").style(
-            f"background:{SURFACE2}; border:1px solid {BORDER}"):
-        with ui.row().classes("items-center gap-3 w-full"):
-            ui.html(sanitize=False, content=
-                f'<span style="color:{arrow_color}; font-size:20px; font-weight:700">{arrow}</span>')
-            with ui.column().classes("flex-1"):
-                ui.label(f"Velocity Forecast — {label}").style(
-                    f"color:{TEXT}; font-size:13px; font-weight:600")
-                ui.label(f"Multiplier: {m:.2f}x").style(
-                    f"color:{SUBTEXT}; font-size:11px")
-            with ui.column().classes("items-end"):
-                ui.label(f"{vel['adjusted_exp_hrs']}h adjusted").style(
-                    f"color:{PEACH}; font-size:14px; font-weight:700")
-                ui.label(f"Est. completion: {vel['completion_date']}").style(
-                    f"color:{SUBTEXT}; font-size:11px")
-        if trend_lines:
-            ui.html(sanitize=False, content=
-                f'<div style="margin-top:8px; padding-top:8px; border-top:1px solid {BORDER}">'
-                f'{trends_html}</div>')
-
-
-def _render_prediction_card(epic: dict):
-    opt = epic.get("est_remaining_opt_hrs", epic.get("est_duration_opt_hrs", 0))
+def _render_timing_card(epic: dict, vel: dict | None):
+    """Minimal completion forecast: name, adjusted date, shift topics."""
     exp = epic.get("est_remaining_exp_hrs", epic.get("est_duration_exp_hrs", 0))
-    pes = epic.get("est_remaining_pes_hrs", epic.get("est_duration_pes_hrs", 0))
-
-    if epic.get("status") == "planning":
-        opt = epic.get("est_duration_opt_hrs", 0)
-        exp = epic.get("est_duration_exp_hrs", 0)
-        pes = epic.get("est_duration_pes_hrs", 0)
-        label_prefix = "Total estimated"
+    if vel:
+        hours = vel["adjusted_exp_hrs"]
+        date = vel["completion_date"]
+        m = vel["multiplier"]
     else:
-        label_prefix = "Remaining"
+        hours = exp
+        work_days = hours / 6.0 if hours else 0
+        date = (datetime.now() + timedelta(days=int(work_days * 7 / 5) + 1)).strftime("%Y-%m-%d")
+        m = 1.0
+
+    if m > 1.0:
+        shift_text, shift_color = f"{(m - 1) * 100:.0f}% slower from shifts", RED
+    elif m < 1.0:
+        shift_text, shift_color = f"{(1 - m) * 100:.0f}% faster from shifts", GREEN
+    else:
+        shift_text, shift_color = "no temporal shift", SUBTEXT
+
+    tags = []
+    for w in (vel or {}).get("worsening_keywords", []):
+        tags.append(
+            f'<span style="background:{SURFACE2}; border:1px solid {BORDER}; color:{RED}; '
+            f'padding:4px 12px; font-size:14px; font-weight:600">▲ {w["keyword"]}</span>')
+    for i in (vel or {}).get("improving_keywords", []):
+        tags.append(
+            f'<span style="background:{SURFACE2}; border:1px solid {BORDER}; color:{GREEN}; '
+            f'padding:4px 12px; font-size:14px; font-weight:600">▼ {i["keyword"]}</span>')
+
+    # Drop the year: "2026-08-14" -> "Aug 14"
+    try:
+        date_display = datetime.strptime(date, "%Y-%m-%d").strftime("%b %d")
+    except ValueError:
+        date_display = date
+
+    pct = epic.get("pct_done", 0)
+    eyebrow = (f'color:{SUBTEXT}; font-size:12px; font-weight:600; '
+               f'text-transform:uppercase; letter-spacing:0.08em')
+    tags_html = ""
+    if tags:
+        tags_html = (f'<div style="display:flex; flex-wrap:wrap; gap:8px; margin-top:16px; '
+                     f'padding-top:14px; border-top:1px solid {BORDER}">{"".join(tags)}</div>')
 
     with ui.card().classes("w-full mb-4 p-5"):
-        with ui.row().classes("items-center gap-3 mb-3"):
-            ui.label(epic.get("key", "")).style(
-                f"color:{SUBTEXT}; font-size:12px; font-family:monospace")
-            ui.label(epic.get("name", "Custom Estimate")).style(
-                f"color:{TEXT}; font-size:15px; font-weight:600")
-            if epic.get("pct_done"):
-                ui.label(f"{epic['pct_done']:.0f}% done").style(
-                    f"color:{MAUVE}; font-size:12px")
-
-        ui.label(f"{label_prefix} effort").style(
-            f"color:{SUBTEXT}; font-size:12px; margin-bottom:8px")
-
-        ui.html(sanitize=False, content=
-            f'<div style="display:flex; gap:4px; width:100%; height:40px">'
-            f'<div style="flex:1; background:{MAUVE}18; border:1px solid {MAUVE}40; border-radius:8px; '
-            f'display:flex; flex-direction:column; align-items:center; justify-content:center">'
-            f'<span style="color:{MAUVE}; font-size:14px; font-weight:700">{opt}h</span>'
-            f'<span style="color:{MAUVE}80; font-size:9px; font-weight:600">OPTIMISTIC</span></div>'
-            f'<div style="display:flex; align-items:center; color:{BORDER}; font-size:10px; padding:0 2px">▸</div>'
-            f'<div style="flex:1; background:{PEACH}18; border:1px solid {PEACH}40; border-radius:8px; '
-            f'display:flex; flex-direction:column; align-items:center; justify-content:center">'
-            f'<span style="color:{PEACH}; font-size:14px; font-weight:700">{exp}h</span>'
-            f'<span style="color:{PEACH}80; font-size:9px; font-weight:600">EXPECTED</span></div>'
-            f'<div style="display:flex; align-items:center; color:{BORDER}; font-size:10px; padding:0 2px">▸</div>'
-            f'<div style="flex:1; background:{RED}18; border:1px solid {RED}40; border-radius:8px; '
-            f'display:flex; flex-direction:column; align-items:center; justify-content:center">'
-            f'<span style="color:{RED}; font-size:14px; font-weight:700">{pes}h</span>'
-            f'<span style="color:{RED}80; font-size:9px; font-weight:600">PESSIMISTIC</span></div>'
-            f'</div>'
-        )
-
-        # Cost estimate
-        cost = epic.get("est_cost", 0)
-        tokens = epic.get("est_norm_tokens", 0)
-        with ui.row().classes("gap-6 mt-3"):
-            _mini_stat("Est. Cost", f"${cost:.2f}", MAUVE)
-            _mini_stat("Norm. Tokens", f"{tokens:,}", SUBTEXT)
-            if epic.get("target_date"):
-                _mini_stat("Target Date", epic["target_date"], PEACH)
+        ui.html(sanitize=False, content=f'''
+<div style="font-size:19px; font-weight:700; color:{TEXT}; letter-spacing:-0.01em;
+            margin-bottom:16px">{epic.get("name", "")}</div>
+<div style="display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:16px">
+  <div>
+    <div style="{eyebrow}">Progress</div>
+    <div style="font-size:26px; font-weight:700; color:{TEXT}; margin-top:4px">{pct:.0f}%</div>
+  </div>
+  <div>
+    <div style="{eyebrow}">Hours Remaining</div>
+    <div style="font-size:26px; font-weight:700; color:{BLUE}; margin-top:4px">{hours:.0f}h</div>
+  </div>
+  <div>
+    <div style="{eyebrow}">Estimated End Date</div>
+    <div style="font-size:26px; font-weight:700; color:{TEXT}; margin-top:4px">{date_display}</div>
+    <div style="font-size:13px; font-weight:600; color:{shift_color}; margin-top:2px">{shift_text}</div>
+  </div>
+</div>
+{tags_html}''')
 
 
 # ─── Main ─────────────────────────────────────────────────────────────────

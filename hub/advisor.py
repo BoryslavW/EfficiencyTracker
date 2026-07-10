@@ -295,28 +295,22 @@ INDIVIDUAL STRUGGLES:
 ACTIVE PROJECTS: {project_text}
 ACTIVE WORK AREAS: {component_text}
 
-Generate a TWO-TIER improvement plan:
+Generate a TWO-TIER improvement plan. Be ruthless about brevity — no filler,
+no restating the data, no generic advice. Every line must be a concrete action.
 
 TIER 1 — STRATEGIC SUMMARY (for engineering leadership)
-Write 3-5 bullet points covering:
-- What the data shows (team-wide gaps vs individual gaps)
-- Recommended investment areas (training, hiring, tooling)
-- Expected timeline and impact
-- How this relates to active project work
+Exactly 3 bullet points, one line each: the core gap, the recommended
+investment, the expected impact.
 
-TIER 2 — DETAILED ACTION PLAN (for the team)
-For each blind spot topic, provide:
-- Week 1-2: Quick wins (tool installations, config changes, linting rules)
-- Week 3-4: Knowledge sharing (who presents what, pair programming assignments)
-- Month 2: Deeper training (courses, workshops, practice exercises)
-- Month 3: Process changes (CI gates, review checklists, automation)
+TIER 2 — ACTION PLAN (for the team)
+For each blind spot topic (max 3 topics), exactly 3 bullets:
+- Now: one quick win (a tool, config, or linting rule — name it)
+- Next 30 days: one knowledge-sharing action (who pairs with whom, or who presents)
+- Ongoing: one process change (a CI gate, checklist item, or automation)
 
-For individual struggles, suggest:
-- Specific pairing recommendations (pair struggling person with skilled person in that topic)
-- Self-study resources
-- Gradual exposure plan (start with simpler tasks in the weak area)
+Then ONE line per struggling individual: "Pair X with Y on <topic>."
 
-Keep recommendations practical and tied to the team's actual projects. Don't suggest things that would disrupt active sprint work — phase them in gradually."""
+Total response under 300 words. No introductions, no conclusions."""
 
     return ollama_generate(prompt, temperature=0.4)
 

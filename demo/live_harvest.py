@@ -23,6 +23,12 @@ OUTPUT_FILE = os.path.join(DATA_DIR, "task_data.jsonl")
 
 CLAUDE_DIR = Path.home() / ".claude" / "projects"
 
+# Outlier guards — a single realistic coding task stays well under these.
+# Anything larger is a long-lived / demo-building session that would dominate
+# the heatmap and skew analytics, so it's skipped.
+MAX_SESSION_TOKENS = 200_000
+MAX_SESSION_MINUTES = 480          # 8 hours
+
 TERM_LIBRARY = {
     "python": "python", "fastapi": "fastapi", "django": "django",
     "react": "react", "typescript": "typescript", "nextjs": "nextjs",
@@ -151,6 +157,13 @@ def parse_session(jsonl_path, employee_name):
     except (ValueError, TypeError):
         return None
 
+    # Skip runaway sessions (e.g. a long-lived session left open for hours/days,
+    # or the demo-building session itself). These are outliers that would
+    # dominate the heatmap and skew every analytic. A realistic single coding
+    # task is well under these bounds.
+    if total_tokens > MAX_SESSION_TOKENS or duration > MAX_SESSION_MINUTES:
+        return "SKIP_OUTLIER"
+
     full_text = scrub(" ".join(all_text))
     keywords = extract_keywords(full_text)
 
@@ -183,8 +196,25 @@ def find_sessions():
     return sorted(sessions, key=lambda p: p.stat().st_mtime, reverse=True)
 
 
+def _default_name():
+    """Pick a sensible display name. Avoids 'root' when run under sudo."""
+    name = os.environ.get("DEMO_NAME")
+    if name:
+        return name
+    for candidate in (os.environ.get("SUDO_USER"), os.environ.get("USER")):
+        if candidate and candidate != "root":
+            return candidate
+    try:
+        login = os.getlogin()
+        if login and login != "root":
+            return login
+    except OSError:
+        pass
+    return "You"
+
+
 def main():
-    employee = os.environ.get("DEMO_NAME", os.getlogin())
+    employee = _default_name()
     limit = None
 
     if "--recent" in sys.argv:
@@ -193,9 +223,6 @@ def main():
             limit = int(sys.argv[idx + 1])
 
     sessions = find_sessions()
-    if limit:
-        sessions = sessions[:limit]
-
     if not sessions:
         print("  No Claude Code sessions found.")
         return
@@ -215,10 +242,16 @@ def main():
 
     added = 0
     skipped = 0
+    outliers = 0
     with open(OUTPUT_FILE, "a") as out:
         for path in sessions:
+            if limit and added >= limit:
+                break
             record = parse_session(path, employee)
             if record is None:
+                continue
+            if record == "SKIP_OUTLIER":
+                outliers += 1
                 continue
             if record["jira_id"] in existing_ids:
                 skipped += 1
@@ -228,7 +261,10 @@ def main():
             added += 1
             print(f"  + {record['jira_id']}: {record['task_name'][:60]}  ({record['token_usage']} tokens, {record['duration_minutes']}min)")
 
-    print(f"\n  {added} sessions added, {skipped} already existed.")
+    summary = f"\n  {added} sessions added as '{employee}', {skipped} already existed"
+    if outliers:
+        summary += f", {outliers} outlier(s) skipped"
+    print(summary + ".")
     if added > 0:
         print(f"  Refresh the dashboard to see them.")
 

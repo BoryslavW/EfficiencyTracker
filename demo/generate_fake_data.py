@@ -20,7 +20,16 @@ GENERIC_KEYWORDS = [
     "scrum", "kanban", "estimation", "blockers",
 ]
 
-TASKS_PER_EMPLOYEE = 100
+# Average tasks per employee — actual counts vary per person (see
+# _tasks_for_employee) so workloads look realistic instead of uniform.
+TASKS_PER_EMPLOYEE = 20
+TASKS_SPREAD_STD = 12          # std-dev of per-employee task count
+TASKS_MIN, TASKS_MAX = 0, 40
+
+
+def _tasks_for_employee() -> int:
+    n = int(random.gauss(TASKS_PER_EMPLOYEE, TASKS_SPREAD_STD))
+    return max(TASKS_MIN, min(TASKS_MAX, n))
 BASE_DATE = datetime(2025, 1, 6, 8, 0, 0, tzinfo=timezone.utc)
 
 
@@ -55,7 +64,7 @@ def generate_records(preset: dict) -> list[dict]:
         model_data = MODEL_BASELINES.get(model_id, ref_baseline)
         verbosity = model_data["output_verbosity"]
 
-        for _ in range(TASKS_PER_EMPLOYEE):
+        for _ in range(_tasks_for_employee()):
             topic = random.choice(topic_names)
             cfg = topics[topic]
 
