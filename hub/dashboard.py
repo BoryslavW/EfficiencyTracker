@@ -1235,7 +1235,22 @@ def _format_fix_prompts(raw_text: str) -> str:
         "medium": BLUE,
     }
 
-    blocks = re.split(r'\n---+\n', raw_text.strip())
+    # Strip common markdown decoration the local model sometimes adds around
+    # labels, e.g. "**PROMPT:**", "### Prompt:", "1. DIAGNOSIS:", "- Severity:".
+    def _label(line):
+        s = line.strip()
+        s = re.sub(r'^[\s>#*`_\-]+', '', s)          # leading markdown / bullets
+        s = re.sub(r'^\d+[.)]\s*', '', s)            # leading list numbers
+        s = s.replace("*", "").replace("`", "")      # inline emphasis
+        m = re.match(r'(?i)(DIAGNOSIS|SEVERITY|PROMPT)\s*:\s*(.*)', s)
+        if m:
+            return m.group(1).upper(), m.group(2).strip()
+        return None, None
+
+    blocks = re.split(r'\n[ \t]*[-=*]{3,}[ \t]*\n', raw_text.strip())
+    if len(blocks) <= 1:
+        blocks = re.split(r'(?im)(?=^[\s>#*`\-]*\d*[.)]?\s*DIAGNOSIS\s*:)',
+                          raw_text.strip())
     cards_html = []
     prompt_idx = 0
 
@@ -1250,21 +1265,21 @@ def _format_fix_prompts(raw_text: str) -> str:
         in_prompt = False
 
         for line in block.split("\n"):
-            stripped = line.strip()
-            upper = stripped.upper()
+            label, value = _label(line)
 
-            if upper.startswith("DIAGNOSIS:"):
-                diagnosis = stripped.split(":", 1)[1].strip()
+            if label == "DIAGNOSIS":
+                diagnosis = value
                 in_prompt = False
-            elif upper.startswith("SEVERITY:"):
-                severity = stripped.split(":", 1)[1].strip().lower()
+            elif label == "SEVERITY":
+                severity = value.lower()
                 in_prompt = False
-            elif upper.startswith("PROMPT:"):
-                rest = stripped.split(":", 1)[1].strip()
-                if rest:
-                    prompt_lines.append(rest)
+            elif label == "PROMPT":
+                if value:
+                    prompt_lines.append(value)
                 in_prompt = True
             elif in_prompt:
+                if re.match(r'^[ \t]*[-=*]{3,}[ \t]*$', line):
+                    break
                 prompt_lines.append(line.rstrip())
 
         prompt_text = "\n".join(prompt_lines).strip()
@@ -1279,13 +1294,20 @@ def _format_fix_prompts(raw_text: str) -> str:
         copy_id = f"fix-prompt-{prompt_idx}"
 
         cards_html.append(f'''
-<div style="background:{SURFACE}; border:1px solid {BORDER}; border-radius:8px;
-            padding:16px; margin-bottom:12px">
-  <div style="display:flex; align-items:center; gap:8px; margin-bottom:8px">
-    <span style="font-size:11px; font-weight:700; color:{DARK_BG}; background:{sev_color};
-                 padding:2px 8px; border-radius:4px; text-transform:uppercase;
-                 letter-spacing:0.5px">{sev_label}</span>
-    <span style="font-size:13px; color:{TEXT}; font-weight:600">{safe_diag}</span>
+<div style="background:{SURFACE}; border:1px solid {BORDER}; border-left:3px solid {sev_color};
+            border-radius:8px; padding:16px; margin-bottom:16px">
+  <div style="display:flex; align-items:flex-start; gap:12px; margin-bottom:12px">
+    <span style="flex:0 0 auto; width:26px; height:26px; border-radius:50%;
+                 background:{sev_color}; color:{DARK_BG}; font-size:13px; font-weight:700;
+                 display:flex; align-items:center; justify-content:center">{prompt_idx}</span>
+    <div style="flex:1 1 auto">
+      <div style="display:flex; align-items:center; gap:8px; margin-bottom:4px">
+        <span style="font-size:10px; font-weight:700; color:{DARK_BG}; background:{sev_color};
+                     padding:2px 8px; border-radius:4px; text-transform:uppercase;
+                     letter-spacing:0.5px">{sev_label}</span>
+      </div>
+      <div style="font-size:15px; color:{TEXT}; font-weight:600; line-height:1.4">{safe_diag}</div>
+    </div>
   </div>
   <div id="{copy_id}" style="background:{DARK_BG}; border:1px solid {BORDER}; border-radius:6px;
               padding:12px 14px; margin-top:8px; position:relative; cursor:pointer"
@@ -1556,10 +1578,12 @@ def _render_code_insights_section(records: list[dict]):
             try:
                 result = _sp.run(
                     [sys.executable, "-c",
-                     "import sys; sys.path.insert(0,'.'); "
+                     "import sys, os; sys.path.insert(0, os.path.dirname(os.path.realpath('code_insight.py'))); "
+                     "import code_insight; "
                      "from code_insight import build_insight_data, generate_root_cause_analysis, save_insights; "
                      "import json; "
-                     "records=[json.loads(l) for l in open('data/task_data.jsonl') if l.strip()]; "
+                     "tf=os.path.join(code_insight.DATA_DIR,'task_data.jsonl'); "
+                     "records=[json.loads(l) for l in open(tf) if l.strip()]; "
                      "data=build_insight_data(records); "
                      "analysis=generate_root_cause_analysis(data); "
                      "data['llm_analysis']=analysis; "
